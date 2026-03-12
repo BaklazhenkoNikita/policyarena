@@ -10,10 +10,24 @@ Cross-paradigm simulation engine for game-theoretic agent research. Run experime
 pip install policy-arena
 ```
 
-Or with uv:
+This installs the core package (rule-based + RL agents). For LLM-powered agents:
 
 ```bash
-uv add policy-arena
+pip install policy-arena[llm]
+```
+
+Or install everything:
+
+```bash
+pip install policy-arena[all]
+```
+
+With uv:
+
+```bash
+uv add policy-arena            # core only
+uv add policy-arena[llm]       # + LLM support
+uv add policy-arena[all]       # everything
 ```
 
 ## Quick Start
@@ -176,6 +190,8 @@ All pairwise and collective games support rule-based, RL, and LLM agents. Spatia
 
 ## LLM Setup
 
+> Requires `pip install policy-arena[llm]`
+
 Set API keys as environment variables:
 
 ```bash
@@ -227,16 +243,50 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for the full game package structure and e
 - [Typer](https://typer.tiangolo.com/) — CLI
 - [Langfuse](https://langfuse.com/) — Optional LLM tracing
 
+## Error Handling
+
+All domain errors inherit from `PolicyArenaError` and carry machine-readable `code`, `message`, and `details` fields:
+
+```python
+from policy_arena.errors import GameNotFoundError, StrategyNotFoundError
+
+try:
+    pa.run(config)
+except GameNotFoundError as e:
+    print(e.code)     # "GAME_NOT_FOUND"
+    print(e.details)  # {"game_id": "...", "available": [...]}
+except StrategyNotFoundError as e:
+    print(e.code)     # "STRATEGY_NOT_FOUND"
+```
+
+Error types: `GameNotFoundError`, `StrategyNotFoundError`, `ConfigValidationError`, `SimulationError`, `LLMProviderError`.
+
 ## Development
 
 ```bash
 git clone https://github.com/BaklazhenkoNikita/policyarena.git
 cd policyarena
-uv sync
+uv sync --all-extras          # install all optional deps
 uv run pytest tests/ -x       # 400 tests
 uv run ruff check src/ tests/
 uv run ruff format --check src/ tests/
 ```
+
+## Contributing
+
+We use a `develop → main` branching model:
+
+- **`main`** — stable releases only, protected (requires PR from `develop` + approval)
+- **`develop`** — integration branch, all feature work merges here first
+
+**Workflow:**
+
+1. Create a feature branch from `develop`: `git checkout -b feat/my-feature develop`
+2. Make changes, commit, push
+3. Open a PR targeting `develop`
+4. After merging to `develop`, a separate PR from `develop → main` is created for releases
+
+Direct PRs to `main` from feature branches are blocked by CI.
 
 ## License
 

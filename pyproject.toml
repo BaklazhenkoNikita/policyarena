@@ -70,7 +70,10 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
+    "mypy>=1.10",
+    "pre-commit>=4.0",
     "pytest>=8.0",
+    "pytest-cov>=6.0",
     "ruff>=0.11",
 ]
 
@@ -101,3 +104,22 @@ ignore = [
 
 [tool.ruff.format]
 quote-style = "double"
+
+[tool.mypy]
+python_version = "3.12"
+strict = false
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+    "policy_arena.brains.llm.*",
+    "policy_arena.llm.*",
+    "policy_arena.tracing",
+    "policy_arena.games.*.brains",
+    "policy_arena.games.*.__main__",
+    "policy_arena.games.*.rl_adapter",
+    "policy_arena.core.extractors",
+    "policy_arena.io.config_loader",
+]
+ignore_errors = true

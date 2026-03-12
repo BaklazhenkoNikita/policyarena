@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
-    branches: [main]
+    branches: [main, develop]
 
 jobs:
   test:
@@ -30,8 +30,11 @@ jobs:
       - name: Format check
         run: uv run ruff format --check src/ tests/
 
+      - name: Type check
+        run: uv run mypy src/policy_arena/
+
       - name: Run tests
-        run: uv run pytest tests/ -x -q
+        run: uv run pytest tests/ -x -q --cov=policy_arena --cov-report=term-missing --cov-fail-under=65
 
   build:
     runs-on: ubuntu-latest

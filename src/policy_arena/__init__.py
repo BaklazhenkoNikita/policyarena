@@ -21,6 +21,7 @@ from importlib.metadata import version as _pkg_version
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+from policy_arena._logging import configure_logging
 from policy_arena.brains.base import Brain
 from policy_arena.core.engine import Engine, RunResults
 from policy_arena.core.scenario import Scenario
@@ -43,6 +44,7 @@ __all__ = [
     "RunResults",
     "Scenario",
     # High-level API
+    "configure_logging",
     "get_registry",
     "get_scenario_path",
     "list_games",
@@ -120,7 +122,7 @@ def run(
     from policy_arena.io.config_loader import load_config as _load
     from policy_arena.io.schemas import ScenarioConfig as _ScenarioConfig
 
-    if isinstance(config, (str, Path)):
+    if isinstance(config, str | Path):
         cfg = _load(config)
     elif isinstance(config, _ScenarioConfig):
         cfg = config

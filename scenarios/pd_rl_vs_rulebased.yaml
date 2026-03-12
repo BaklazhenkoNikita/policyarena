@@ -1,0 +1,31 @@
+name: "PD — RL vs Rule-Based"
+description: "Compare Q-learning and Best Response against classic rule-based strategies in iterated Prisoner's Dilemma"
+game: prisoners_dilemma
+rounds: 200
+seed: 42
+
+agents:
+  - name: tft
+    strategy: tit_for_tat
+
+  - name: always_defect
+    strategy: always_defect
+
+  - name: always_cooperate
+    strategy: always_cooperate
+
+  - name: pavlov
+    strategy: pavlov
+
+  - name: q_learner
+    type: rl
+    strategy: q_learning
+    parameters:
+      learning_rate: 0.15
+      epsilon: 0.2
+      epsilon_decay: 0.995
+      epsilon_min: 0.01
+
+  - name: best_resp
+    type: rl
+    strategy: best_response

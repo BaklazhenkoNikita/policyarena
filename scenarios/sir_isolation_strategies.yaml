@@ -1,0 +1,25 @@
+name: SIR Isolation Strategies
+description: Compare different isolation behaviors during disease spread
+game: sir
+rounds: 100
+seed: 42
+game_params:
+  beta: 0.3
+  gamma: 0.1
+  isolation_effectiveness: 0.8
+  initial_infected: 3
+  network_type: small_world
+  network_k: 4
+  network_p: 0.1
+agents:
+  - name: never_isolate
+    strategy: never_isolate
+    count: 15
+  - name: threshold_isolator
+    strategy: threshold_isolator
+    count: 10
+    parameters:
+      threshold: 0.3
+  - name: self_aware
+    strategy: self_aware
+    count: 5

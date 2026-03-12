@@ -1,0 +1,65 @@
+[project]
+name = "policy-arena"
+version = "0.1.0"
+description = "Cross-paradigm simulation engine for game-theoretic agent research"
+authors = [
+    { name = "Nikit Baklazhenko", email = "vikivikovik@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "mesa>=3.0",
+    "networkx>=3.6.1",
+    "numpy>=1.26",
+    "polars>=1.0",
+    "pydantic>=2.12.5",
+    "pyyaml>=6.0",
+    "typer>=0.15",
+    "langchain-core>=0.3",
+    "langchain-ollama>=0.3",
+    "langchain-openai>=0.3",
+    "langchain-anthropic>=0.3",
+    "langchain-google-genai>=2.0",
+    "langfuse>=2.10",
+    "python-dotenv>=1.0",
+]
+
+[project.scripts]
+policy-arena = "policy_arena.cli.main:app"
+
+[build-system]
+requires = ["uv_build>=0.10.5,<0.11.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.11",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+  "E",    # pycodestyle errors
+  "W",    # pycodestyle warnings
+  "F",    # pyflakes
+  "I",    # isort (import sorting)
+  "N",    # pep8-naming
+  "UP",   # pyupgrade (modernize syntax)
+  "B",    # flake8-bugbear (common bugs)
+  "SIM",  # flake8-simplify
+]
+ignore = [
+  "E501",  # line-too-long (handled by formatter)
+  "E402",  # module-import-not-at-top (needed for load_dotenv)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B017"]
+"src/policy_arena/cli/*" = ["B008"]
+
+[tool.ruff.format]
+quote-style = "double"

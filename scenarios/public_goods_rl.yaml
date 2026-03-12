@@ -1,0 +1,28 @@
+name: "Public Goods — RL vs Rule-Based"
+description: "Q-learning agent discovers optimal contribution level among rule-based strategies"
+game: public_goods
+rounds: 150
+seed: 42
+
+game_params:
+  endowment: 20.0
+  multiplier: 1.6
+
+agents:
+  - name: free_rider
+    strategy: free_rider
+
+  - name: full_contrib
+    strategy: full_contributor
+
+  - name: conditional
+    strategy: conditional_cooperator
+
+  - name: q_learner
+    type: rl
+    strategy: q_learning
+    count: 2
+    parameters:
+      learning_rate: 0.1
+      epsilon: 0.3
+      epsilon_decay: 0.99

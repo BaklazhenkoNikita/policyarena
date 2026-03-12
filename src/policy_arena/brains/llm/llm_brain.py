@@ -69,13 +69,11 @@ class _RetryLogHandler(logging.Handler):
             return
         summary = _summarize_error(msg)
         self._error_ref[0] = {"type": "ProviderRetry", "message": summary}
-        try:
+        with contextlib.suppress(Exception):
             self._callback(
                 "retrying",
                 {"agent_label": self._agent_label, "reason": summary},
             )
-        except Exception:
-            pass  # never break the SDK's own flow
 
 
 @contextlib.contextmanager
@@ -97,6 +95,7 @@ def _intercept_sdk_retries(
     finally:
         for lg in loggers:
             lg.removeHandler(handler)
+
 
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
@@ -245,9 +244,7 @@ class LLMBrain(Brain):
 
         persona = self._persona
         if self._needs_json_hint:
-            schema_hint = json.dumps(
-                self._output_schema.model_json_schema(), indent=2
-            )
+            schema_hint = json.dumps(self._output_schema.model_json_schema(), indent=2)
             persona += (
                 "\n\nYou MUST respond with valid JSON matching this exact schema "
                 "(no markdown, no explanation):\n" + schema_hint
@@ -292,11 +289,17 @@ class LLMBrain(Brain):
         if self._semaphore is not None:
             self._semaphore.acquire()
         try:
-            with _intercept_sdk_retries(self._label, self._status_callback, sdk_error_ref):
+            with _intercept_sdk_retries(
+                self._label, self._status_callback, sdk_error_ref
+            ):
                 if self._structured_llm is not None:
-                    actions, response_text, retried = self._decide_structured(messages, n)
+                    actions, response_text, retried = self._decide_structured(
+                        messages, n
+                    )
                 else:
-                    actions, response_text, retried = self._decide_unstructured(messages, n)
+                    actions, response_text, retried = self._decide_unstructured(
+                        messages, n
+                    )
         finally:
             if self._semaphore is not None:
                 self._semaphore.release()
@@ -543,9 +546,19 @@ def _default_batch_extractor(response: str, n: int) -> list[Any]:
 def _summarize_error(error_str: str) -> str:
     """Extract a short, user-friendly message from a verbose LLM error."""
     lower = error_str.lower()
-    if "rate" in lower or "quota" in lower or "resource_exhausted" in lower or "429" in lower:
+    if (
+        "rate" in lower
+        or "quota" in lower
+        or "resource_exhausted" in lower
+        or "429" in lower
+    ):
         return "Rate limit exceeded — too many requests to the LLM provider."
-    if "401" in lower or "unauthorized" in lower or "api_key" in lower or "invalid key" in lower:
+    if (
+        "401" in lower
+        or "unauthorized" in lower
+        or "api_key" in lower
+        or "invalid key" in lower
+    ):
         return "Authentication error — check your API key."
     if "timeout" in lower or "timed out" in lower:
         return "Request timed out — the LLM provider took too long to respond."

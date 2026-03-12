@@ -150,9 +150,7 @@ class UltimatumModel(mesa.Model):
         for proposer, responder in pairs:
             proposer_targets[proposer.unique_id].append(responder.unique_id)
 
-        proposers_with_targets = [
-            agent_map[pid] for pid in proposer_targets
-        ]
+        proposers_with_targets = [agent_map[pid] for pid in proposer_targets]
 
         def _propose(agent):
             targets = proposer_targets[agent.unique_id]
@@ -166,13 +164,9 @@ class UltimatumModel(mesa.Model):
         responder_offers: dict[int, list[tuple[int, float]]] = defaultdict(list)
         for proposer, responder in pairs:
             offer = all_proposals[proposer.unique_id][responder.unique_id]
-            responder_offers[responder.unique_id].append(
-                (proposer.unique_id, offer)
-            )
+            responder_offers[responder.unique_id].append((proposer.unique_id, offer))
 
-        responders_with_offers = [
-            agent_map[rid] for rid in responder_offers
-        ]
+        responders_with_offers = [agent_map[rid] for rid in responder_offers]
 
         def _respond(agent):
             offers = responder_offers[agent.unique_id]

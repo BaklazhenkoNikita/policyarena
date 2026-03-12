@@ -151,9 +151,7 @@ class TrustGameModel(mesa.Model):
         for investor, trustee in pairs:
             investor_targets[investor.unique_id].append(trustee.unique_id)
 
-        investors_with_targets = [
-            agent_map[iid] for iid in investor_targets
-        ]
+        investors_with_targets = [agent_map[iid] for iid in investor_targets]
 
         def _invest(agent):
             targets = investor_targets[agent.unique_id]
@@ -171,9 +169,7 @@ class TrustGameModel(mesa.Model):
                 (investor.unique_id, amount_received)
             )
 
-        trustees_with_received = [
-            agent_map[tid] for tid in trustee_received
-        ]
+        trustees_with_received = [agent_map[tid] for tid in trustee_received]
 
         def _return(agent):
             received = trustee_received[agent.unique_id]

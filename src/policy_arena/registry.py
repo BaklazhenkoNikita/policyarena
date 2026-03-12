@@ -78,7 +78,16 @@ BRAIN_FACTORIES: dict[str, dict[str, Any]] = _LazyDict(_get_brain_factories)
 # ---------------------------------------------------------------------------
 
 LLM_COMMON_KWARGS: frozenset[str] = frozenset(
-    {"provider", "model", "temperature", "max_history", "persona", "characteristics", "api_key", "base_url"}
+    {
+        "provider",
+        "model",
+        "temperature",
+        "max_history",
+        "persona",
+        "characteristics",
+        "api_key",
+        "base_url",
+    }
 )
 
 RL_Q_KWARGS: frozenset[str] = frozenset(
@@ -108,6 +117,7 @@ def _filter_kwargs(kw: dict[str, Any], allowed: frozenset[str]) -> dict[str, Any
 def _make_filtered_factory(factory: Any, allowed: frozenset[str]) -> Any:
     def wrapped(**kw: Any) -> Any:
         return factory(**_filter_kwargs(kw, allowed))
+
     return wrapped
 
 
@@ -133,7 +143,9 @@ def build_api_brain_factories() -> dict[str, dict[str, Any]]:
             elif name == "llm" and reg.llm_factory is not None:
                 allowed = LLM_COMMON_KWARGS | reg.llm_extra_kwargs
                 for preset in LLM_PRESET_NAMES:
-                    game_factories[preset] = _make_filtered_factory(reg.llm_factory, allowed)
+                    game_factories[preset] = _make_filtered_factory(
+                        reg.llm_factory, allowed
+                    )
             else:
                 game_factories[name] = factory
 

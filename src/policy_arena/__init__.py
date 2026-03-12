@@ -17,6 +17,7 @@ Quick start::
 
 from __future__ import annotations
 
+from importlib.metadata import version as _pkg_version
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -28,8 +29,6 @@ from policy_arena.registration import GameRegistration, get_registry
 
 if TYPE_CHECKING:
     from policy_arena.io.schemas import ScenarioConfig
-
-from importlib.metadata import version as _pkg_version
 
 __version__ = _pkg_version("policy-arena")
 
@@ -78,8 +77,7 @@ def get_scenario_path(name: str) -> Path:
     if not path.exists():
         available = list_scenarios()
         raise FileNotFoundError(
-            f"No built-in scenario '{name}'. "
-            f"Available: {available}"
+            f"No built-in scenario '{name}'. Available: {available}"
         )
     return path
 
@@ -118,12 +116,13 @@ def run(
     RunResults
         Contains ``model_metrics`` and ``agent_metrics`` DataFrames.
     """
-    from policy_arena.io.config_loader import build_scenario, load_config as _load
-    from policy_arena.io.schemas import ScenarioConfig as _SC
+    from policy_arena.io.config_loader import build_scenario
+    from policy_arena.io.config_loader import load_config as _load
+    from policy_arena.io.schemas import ScenarioConfig as _ScenarioConfig
 
     if isinstance(config, (str, Path)):
         cfg = _load(config)
-    elif isinstance(config, _SC):
+    elif isinstance(config, _ScenarioConfig):
         cfg = config
     else:
         raise TypeError(

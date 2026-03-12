@@ -31,13 +31,15 @@ def _step_model(model: Any, game_id: str, n_rounds: int) -> list[dict[str, Any]]
         metrics = extract_model_metrics(model, game_id)
         agents = extract_agent_states(model, game_id)
         game_data = extract_game_data(model, game_id)
-        steps.append({
-            "round": step_num,
-            "total_rounds": n_rounds,
-            "model_metrics": metrics,
-            "agents": agents,
-            "game_data": game_data,
-        })
+        steps.append(
+            {
+                "round": step_num,
+                "total_rounds": n_rounds,
+                "model_metrics": metrics,
+                "agents": agents,
+                "game_data": game_data,
+            }
+        )
         if not model.running:
             break
     return steps
@@ -47,12 +49,14 @@ def _config_to_brains(config: Any) -> list[dict[str, Any]]:
     """Convert ScenarioConfig agents to BrainSelection-compatible dicts."""
     brains = []
     for agent_cfg in config.agents:
-        brains.append({
-            "brain_id": agent_cfg.strategy,
-            "count": agent_cfg.count,
-            "params": agent_cfg.parameters,
-            "label_prefix": agent_cfg.name,
-        })
+        brains.append(
+            {
+                "brain_id": agent_cfg.strategy,
+                "count": agent_cfg.count,
+                "params": agent_cfg.parameters,
+                "label_prefix": agent_cfg.name,
+            }
+        )
     return brains
 
 
@@ -97,7 +101,9 @@ def run(
         False, "--no-save", help="Skip saving results to disk."
     ),
     export_json: bool = typer.Option(
-        False, "--export-json", help="Export a full run JSON file (frontend-compatible)."
+        False,
+        "--export-json",
+        help="Export a full run JSON file (frontend-compatible).",
     ),
     export_yaml: bool = typer.Option(
         False, "--export-yaml", help="Export the scenario config as YAML."
@@ -107,7 +113,9 @@ def run(
     from policy_arena.io.config_loader import build_scenario, load_config
 
     if example and scenario_path:
-        typer.echo("Error: provide either a scenario path or --example, not both.", err=True)
+        typer.echo(
+            "Error: provide either a scenario path or --example, not both.", err=True
+        )
         raise typer.Exit(1)
 
     if example:
@@ -115,10 +123,10 @@ def run(
 
         try:
             scenario_path = get_scenario_path(example)
-        except FileNotFoundError:
+        except FileNotFoundError as err:
             typer.echo(f"Unknown example '{example}'.", err=True)
             typer.echo(f"Available: {', '.join(list_scenarios())}", err=True)
-            raise typer.Exit(1)
+            raise typer.Exit(1) from err
     elif scenario_path is None:
         typer.echo("Error: provide a scenario path or use --example.", err=True)
         raise typer.Exit(1)
@@ -189,7 +197,9 @@ def run(
             model_df = model.datacollector.get_model_vars_dataframe()
             agent_df = model.datacollector.get_agent_vars_dataframe()
             results = RunResults(model_metrics=model_df, agent_metrics=agent_df)
-            write_results(results, config=config, output_dir=str(out.parent), run_id=run_id)
+            write_results(
+                results, config=config, output_dir=str(out.parent), run_id=run_id
+            )
             saved.append("rounds.parquet, metrics.parquet")
 
         if export_json:

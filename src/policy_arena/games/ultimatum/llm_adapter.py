@@ -82,7 +82,9 @@ def _ug_proposer_observation_formatter(observations: list[Any]) -> str:
 
     round_num = observations[0].round_number + 1
     stake = observations[0].stake
-    parts = [f"=== Round {round_num} — PROPOSER — {len(observations)} opponent(s) ===\n"]
+    parts = [
+        f"=== Round {round_num} — PROPOSER — {len(observations)} opponent(s) ===\n"
+    ]
     parts.append(f"Stake: {_fmt_num(stake)}")
 
     for i, obs in enumerate(observations):
@@ -100,36 +102,33 @@ def _ug_proposer_observation_formatter(observations: list[Any]) -> str:
 
     # Global summary across all opponents
     first = observations[0]
-    if first.my_past_offers_made:
-        if first.my_past_responses:
-            below_30: list[bool] = []
-            between_30_50: list[bool] = []
-            above_50: list[bool] = []
-            for offer, accepted in zip(
-                first.my_past_offers_made, first.my_past_responses, strict=False
-            ):
-                pct = offer / stake
-                if pct < 0.3:
-                    below_30.append(accepted)
-                elif pct <= 0.5:
-                    between_30_50.append(accepted)
-                else:
-                    above_50.append(accepted)
+    if first.my_past_offers_made and first.my_past_responses:
+        below_30: list[bool] = []
+        between_30_50: list[bool] = []
+        above_50: list[bool] = []
+        for offer, accepted in zip(
+            first.my_past_offers_made, first.my_past_responses, strict=False
+        ):
+            pct = offer / stake
+            if pct < 0.3:
+                below_30.append(accepted)
+            elif pct <= 0.5:
+                between_30_50.append(accepted)
+            else:
+                above_50.append(accepted)
 
-            rate_parts = []
-            if below_30:
-                acc = sum(below_30)
-                rate_parts.append(f"<30%: {acc}/{len(below_30)} accepted")
-            if between_30_50:
-                acc = sum(between_30_50)
-                rate_parts.append(f"30-50%: {acc}/{len(between_30_50)} accepted")
-            if above_50:
-                acc = sum(above_50)
-                rate_parts.append(f">50%: {acc}/{len(above_50)} accepted")
-            if rate_parts:
-                parts.append(
-                    f"\nOverall acceptance rates: {', '.join(rate_parts)}"
-                )
+        rate_parts = []
+        if below_30:
+            acc = sum(below_30)
+            rate_parts.append(f"<30%: {acc}/{len(below_30)} accepted")
+        if between_30_50:
+            acc = sum(between_30_50)
+            rate_parts.append(f"30-50%: {acc}/{len(between_30_50)} accepted")
+        if above_50:
+            acc = sum(above_50)
+            rate_parts.append(f">50%: {acc}/{len(above_50)} accepted")
+        if rate_parts:
+            parts.append(f"\nOverall acceptance rates: {', '.join(rate_parts)}")
 
     parts.append(f"\nChoose an offer (0 to {_fmt_num(stake)}) for each opponent.")
     return "\n\n".join(parts)
@@ -160,9 +159,7 @@ def _ug_responder_observation_formatter(observations: list[Any]) -> str:
     if first.my_past_responses:
         accepted_count = sum(first.my_past_responses)
         total = len(first.my_past_responses)
-        parts.append(
-            f"\nYour accept rate so far: {accepted_count}/{total}"
-        )
+        parts.append(f"\nYour accept rate so far: {accepted_count}/{total}")
 
     parts.append("\nAccept or reject each offer?")
     return "\n\n".join(parts)

@@ -922,7 +922,10 @@ class TestCKLLMAdapter:
     def test_ck_observation_formatter_no_strategy_leak(self):
         obs = Observation(
             round_number=0,
-            extra={"opponent_label": "always_straight_0", "opponent_brain": "always_straight"},
+            extra={
+                "opponent_label": "always_straight_0",
+                "opponent_brain": "always_straight",
+            },
         )
         text = _ck_observation_formatter([obs])
         assert "always_straight" not in text
@@ -991,7 +994,9 @@ class TestTGLLMAdapter:
         assert brain._trustee._output_schema is TGTrusteeDecisionList
 
     def test_tg_investor_observation_formatter_first_round(self):
-        obs = TGObservation(role="investor", round_number=0, endowment=10.0, multiplier=3.0)
+        obs = TGObservation(
+            role="investor", round_number=0, endowment=10.0, multiplier=3.0
+        )
         text = _tg_investor_observation_formatter([obs])
         assert "Round 1" in text
         assert "INVESTOR" in text
@@ -1069,9 +1074,7 @@ class TestUGLLMAdapter:
         assert "first interaction" in text.lower() or "no history" in text.lower()
 
     def test_ug_responder_observation_formatter(self):
-        obs = UGObservation(
-            role="responder", stake=100.0, round_number=1, offer=40.0
-        )
+        obs = UGObservation(role="responder", stake=100.0, round_number=1, offer=40.0)
         text = _ug_responder_observation_formatter([obs])
         assert "Round 2" in text
         assert "RESPONDER" in text

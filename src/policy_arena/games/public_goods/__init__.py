@@ -2,7 +2,13 @@
 
 from policy_arena.registration import GameRegistration
 
-from .brains import AverageUp, ConditionalCooperator, FixedContributor, FreeRider, FullContributor
+from .brains import (
+    AverageUp,
+    ConditionalCooperator,
+    FixedContributor,
+    FreeRider,
+    FullContributor,
+)
 from .llm_adapter import pg_llm
 from .model import PublicGoodsModel
 from .rl_adapter import pg_bandit, pg_q_learning

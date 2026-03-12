@@ -7,13 +7,13 @@ adapters only need to supply role configurations.
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any, Callable
+from typing import Any
 
 from pydantic import BaseModel
 
 from policy_arena.brains.llm.llm_brain import LLMBrain
-from policy_arena.brains.llm.shared import DEFAULT_PERSONA, _build_persona
 
 
 @dataclass(frozen=True)

@@ -82,7 +82,9 @@ class BoSAgent(mesa.Agent):
 
         # Send a single consolidated round summary to the brain
         if self._round_opponent_results:
-            parts = [f"[Round {self.model.steps} results — total payoff: {self.round_payoff}]"]
+            parts = [
+                f"[Round {self.model.steps} results — total payoff: {self.round_payoff}]"
+            ]
             for idx, (_opp_id, (my_act, opp_act, payoff)) in enumerate(
                 self._round_opponent_results.items()
             ):

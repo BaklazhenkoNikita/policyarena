@@ -35,7 +35,7 @@ class Brain(ABC):
     def update(self, result: Any) -> None:
         """Learn from the outcome of the last round."""
 
-    def update_round_summary(self, summary: str) -> None:
+    def update_round_summary(self, summary: str) -> None:  # noqa: B027
         """Receive a consolidated round summary. Override in subclasses."""
 
     @abstractmethod

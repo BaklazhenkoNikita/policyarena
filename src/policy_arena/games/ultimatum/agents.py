@@ -54,9 +54,7 @@ class UGAgent(mesa.Agent):
         raw = self.brain.decide(obs)
         return max(0.0, min(self.model.stake, float(raw)))
 
-    def make_proposals_batch(
-        self, opponent_ids: list[int]
-    ) -> dict[int, float]:
+    def make_proposals_batch(self, opponent_ids: list[int]) -> dict[int, float]:
         """Batch-decide proposals for all opponents in a single LLM call."""
         observations = [self._proposer_observation(oid) for oid in opponent_ids]
         raw_actions = self.brain.decide_batch(observations)
@@ -69,11 +67,12 @@ class UGAgent(mesa.Agent):
         self, offers: list[tuple[int, float]]
     ) -> dict[int, bool]:
         """Batch-decide responses for all received offers in a single LLM call."""
-        observations = [self._responder_observation(oid, offer) for oid, offer in offers]
+        observations = [
+            self._responder_observation(oid, offer) for oid, offer in offers
+        ]
         raw_actions = self.brain.decide_batch(observations)
         return {
-            oid: bool(raw)
-            for (oid, _), raw in zip(offers, raw_actions, strict=False)
+            oid: bool(raw) for (oid, _), raw in zip(offers, raw_actions, strict=False)
         }
 
     def respond_to_offer(self, offer: float, opponent_id: int) -> bool:
@@ -89,9 +88,7 @@ class UGAgent(mesa.Agent):
             opponent_past_offers=self._opponent_offers.get(opponent_id, []),
         )
 
-    def _responder_observation(
-        self, opponent_id: int, offer: float
-    ) -> UGObservation:
+    def _responder_observation(self, opponent_id: int, offer: float) -> UGObservation:
         return UGObservation(
             role="responder",
             stake=self.model.stake,

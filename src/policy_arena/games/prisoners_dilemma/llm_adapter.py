@@ -13,6 +13,7 @@ from policy_arena.core.types import Action
 
 class PDDecision(BaseModel):
     """A single decision for one opponent in the Prisoner's Dilemma."""
+
     opponent: str = Field(description="Name of the opponent")
     rationale: str = Field(description="1-2 sentence reasoning for the decision")
     action: Literal[0, 1] = Field(description="0 = DEFECT, 1 = COOPERATE")
@@ -20,6 +21,7 @@ class PDDecision(BaseModel):
 
 class PDDecisionList(BaseModel):
     """Batch of decisions, one per opponent."""
+
     decisions: list[PDDecision]
 
 

@@ -99,7 +99,9 @@ def _tg_investor_observation_formatter(observations: list[Any]) -> str:
 
             if obs.my_past_investments:
                 pairs = list(
-                    zip(obs.my_past_investments, obs.opponent_past_returns, strict=False)
+                    zip(
+                        obs.my_past_investments, obs.opponent_past_returns, strict=False
+                    )
                 )[-5:]
                 roi_parts = []
                 for inv, ret in pairs:
@@ -121,9 +123,7 @@ def _tg_trustee_observation_formatter(observations: list[Any]) -> str:
 
     round_num = observations[0].round_number + 1
     multiplier = observations[0].multiplier
-    parts = [
-        f"=== Round {round_num} — TRUSTEE — {len(observations)} investor(s) ===\n"
-    ]
+    parts = [f"=== Round {round_num} — TRUSTEE — {len(observations)} investor(s) ===\n"]
 
     for i, obs in enumerate(observations):
         received = obs.amount_received or 0

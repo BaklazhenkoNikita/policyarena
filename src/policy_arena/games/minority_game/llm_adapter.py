@@ -12,6 +12,7 @@ from policy_arena.brains.llm.shared import DEFAULT_PERSONA, _build_persona, _fmt
 
 class MGDecision(BaseModel):
     """Decision for the Minority Game."""
+
     rationale: str = Field(description="1-2 sentence reasoning")
     choice: Literal["A", "B"] = Field(description="Choose A or B")
 

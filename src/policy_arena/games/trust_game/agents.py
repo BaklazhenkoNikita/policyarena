@@ -53,9 +53,7 @@ class TGAgent(mesa.Agent):
         raw = self.brain.decide(obs)
         return max(0.0, min(self.model.endowment, float(raw)))
 
-    def make_investments_batch(
-        self, opponent_ids: list[int]
-    ) -> dict[int, float]:
+    def make_investments_batch(self, opponent_ids: list[int]) -> dict[int, float]:
         """Batch-decide investments for all opponents in a single LLM call."""
         observations = [self._investor_observation(oid) for oid in opponent_ids]
         raw_actions = self.brain.decide_batch(observations)
@@ -73,9 +71,7 @@ class TGAgent(mesa.Agent):
         self, received: list[tuple[int, float]]
     ) -> dict[int, float]:
         """Batch-decide returns for all investors in a single LLM call."""
-        observations = [
-            self._trustee_observation(oid, amt) for oid, amt in received
-        ]
+        observations = [self._trustee_observation(oid, amt) for oid, amt in received]
         raw_actions = self.brain.decide_batch(observations)
         return {
             oid: max(0.0, min(amt, float(raw)))
@@ -102,9 +98,7 @@ class TGAgent(mesa.Agent):
             amount_received=amount_received,
             round_number=self.model.steps,
             my_past_returns=list(self._returns_made),
-            opponent_past_investments=self._opponent_investments.get(
-                opponent_id, []
-            ),
+            opponent_past_investments=self._opponent_investments.get(opponent_id, []),
         )
 
     def record_result(self, result: TGRoundResult, opponent_id: int) -> None:
@@ -131,7 +125,12 @@ class TGAgent(mesa.Agent):
                 result.investment
             )
             self._round_trustee_results.append(
-                (result.investment, result.amount_received, result.amount_returned, result.payoff)
+                (
+                    result.investment,
+                    result.amount_received,
+                    result.amount_returned,
+                    result.payoff,
+                )
             )
             self._round_trustee_payoff += result.payoff
         self.brain.update(result)
@@ -145,9 +144,7 @@ class TGAgent(mesa.Agent):
                 f"[INVESTOR Round {step} — total investor payoff: "
                 f"{self._round_investor_payoff:.1f}]"
             ]
-            for idx, (inv, ret, payoff) in enumerate(
-                self._round_investor_results
-            ):
+            for idx, (inv, ret, payoff) in enumerate(self._round_investor_results):
                 roi = (ret - inv) / inv * 100 if inv > 0 else 0
                 parts.append(
                     f"  Opp {idx + 1}: invested {inv:.1f}, returned {ret:.1f}, "

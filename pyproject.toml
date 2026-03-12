@@ -2,7 +2,7 @@
 name = "policy-arena"
 version = "0.1.1"
 description = "Cross-paradigm simulation engine for game-theoretic agent research"
-license = "MIT"
+license = {text = "MIT"}
 readme = "README.md"
 authors = [
     { name = "Nikit Baklazhenko", email = "vikivikovik@gmail.com" }

@@ -42,8 +42,7 @@ class GameRegistry:
     def get(self, game_id: str) -> GameRegistration:
         if game_id not in self._games:
             raise KeyError(
-                f"Unknown game '{game_id}'. "
-                f"Available: {sorted(self._games)}"
+                f"Unknown game '{game_id}'. Available: {sorted(self._games)}"
             )
         return self._games[game_id]
 
@@ -95,7 +94,7 @@ def _discover_builtin_games(registry: GameRegistry) -> None:
     """Import all subpackages of ``policy_arena.games`` and collect registrations."""
     import policy_arena.games as games_pkg
 
-    for importer, modname, ispkg in pkgutil.iter_modules(
+    for _importer, modname, ispkg in pkgutil.iter_modules(
         games_pkg.__path__, games_pkg.__name__ + "."
     ):
         if not ispkg:

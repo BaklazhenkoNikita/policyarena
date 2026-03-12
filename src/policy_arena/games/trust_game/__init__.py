@@ -2,7 +2,14 @@
 
 from policy_arena.registration import GameRegistration
 
-from .brains import AdaptiveTrust, Exploiter, FullTrust, GradualTrust, NoTrust, Reciprocator
+from .brains import (
+    AdaptiveTrust,
+    Exploiter,
+    FullTrust,
+    GradualTrust,
+    NoTrust,
+    Reciprocator,
+)
 from .brains import FairPlayer as TGFairPlayer
 from .llm_adapter import tg_llm_combined
 from .model import TrustGameModel

@@ -12,6 +12,7 @@ from policy_arena.brains.llm.shared import DEFAULT_PERSONA, _build_persona, _fmt
 
 class EFDecision(BaseModel):
     """Decision for the El Farol Bar Problem."""
+
     rationale: str = Field(description="1-2 sentence reasoning")
     attend: bool = Field(description="true = go to the bar, false = stay home")
 

@@ -2,13 +2,12 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Any, Callable, TypeVar
-
-T = TypeVar("T")
+from typing import Any
 
 
-def gather_decisions(
+def gather_decisions[T](
     agents: list[Any],
     decide_fn: Callable[[Any], T],
     max_workers: int = 1,

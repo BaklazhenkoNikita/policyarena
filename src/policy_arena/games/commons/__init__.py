@@ -22,5 +22,7 @@ REGISTRATION = GameRegistration(
         "llm": lambda **kw: tc_llm(**kw),
     },
     llm_factory=tc_llm,
-    llm_extra_kwargs=frozenset({"max_resource", "growth_rate", "harvest_cap", "n_agents"}),
+    llm_extra_kwargs=frozenset(
+        {"max_resource", "growth_rate", "harvest_cap", "n_agents"}
+    ),
 )

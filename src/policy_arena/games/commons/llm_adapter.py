@@ -12,6 +12,7 @@ from policy_arena.brains.llm.shared import DEFAULT_PERSONA, _build_persona, _fmt
 
 class TCDecision(BaseModel):
     """Decision for the Tragedy of the Commons."""
+
     rationale: str = Field(description="1-2 sentence reasoning")
     harvest: float = Field(
         description="Amount to harvest (0 to your harvest cap shown in the observation)"

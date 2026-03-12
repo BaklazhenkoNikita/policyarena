@@ -2,7 +2,13 @@
 
 from policy_arena.registration import GameRegistration
 
-from .brains import AdaptivePlayer, FairPlayer, GenerousPlayer, GreedyPlayer, SpitefulPlayer
+from .brains import (
+    AdaptivePlayer,
+    FairPlayer,
+    GenerousPlayer,
+    GreedyPlayer,
+    SpitefulPlayer,
+)
 from .llm_adapter import ug_llm_combined
 from .model import UltimatumModel
 from .rl_adapter import ug_bandit, ug_q_learning

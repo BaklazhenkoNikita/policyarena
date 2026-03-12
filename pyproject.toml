@@ -1,11 +1,11 @@
 [project]
 name = "policy-arena"
-version = "0.1.1"
+version = "0.1.2"
 description = "Cross-paradigm simulation engine for game-theoretic agent research"
 license = {text = "MIT"}
 readme = "README.md"
 authors = [
-    { name = "Nikit Baklazhenko", email = "vikivikovik@gmail.com" }
+    { name = "Nikita Baklazhenko", email = "vikivikovik@gmail.com" }
 ]
 keywords = ["game-theory", "simulation", "multi-agent", "reinforcement-learning", "llm"]
 classifiers = [

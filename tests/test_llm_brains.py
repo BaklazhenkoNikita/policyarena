@@ -7,6 +7,9 @@ from unittest.mock import MagicMock
 
 import pytest
 
+# Skip entire module when optional LLM dependencies are not installed
+pytest.importorskip("langchain_core", reason="LLM extras not installed")
+
 from policy_arena.brains.llm.llm_brain import (
     LLMBrain,
     _default_batch_extractor,

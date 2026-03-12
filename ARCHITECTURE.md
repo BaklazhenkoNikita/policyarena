@@ -373,6 +373,7 @@ API keys are read from environment variables (`ANTHROPIC_API_KEY`, `OPENAI_API_K
 ```
 src/policy_arena/
     __init__.py              # Public API: run(), list_games(), get_registry(), ...
+    errors.py                # Structured error hierarchy (GameNotFoundError, etc.)
     registration.py          # GameRegistration, GameRegistry, auto-discovery
     registry.py              # Backward-compat MODEL_CLASSES / BRAIN_FACTORIES dicts
     core/
@@ -384,14 +385,49 @@ src/policy_arena/
         base.py              # Brain ABC
         rule_based/          # TitForTat, AlwaysCooperate, AlwaysDefect, Pavlov, Random
         rl/                  # QLearningBrain, BestResponseBrain, BanditBrain + adapters
-        llm/                 # LLMBrain, DualRoleBrain + adapters
+        llm/                 # LLMBrain, DualRoleBrain + adapters (lazy-loaded)
     games/                   # 13 game packages, each with model/agents/brains/types
     metrics/                 # cooperation, nash_distance, social_welfare, entropy, ...
     io/                      # YAML config loader, Pydantic schemas, Parquet writer/reader
     cli/                     # Typer CLI (run, games, info, validate, examples, version)
-    llm/                     # LLM provider factory (create_chat_model)
+    llm/                     # LLM provider factory (lazy-loaded, requires [llm] extra)
     scenarios/               # 13 built-in YAML scenario configs
 ```
+
+## Error Handling (`errors.py`)
+
+All domain errors inherit from `PolicyArenaError` and carry structured metadata:
+
+```python
+class PolicyArenaError(Exception):
+    code: str                    # Machine-readable: "GAME_NOT_FOUND", "STRATEGY_NOT_FOUND", etc.
+    message: str                 # Human-readable description
+    details: dict[str, Any]      # Structured context (game_id, available strategies, etc.)
+```
+
+Error hierarchy:
+
+| Error | Code | Raised When |
+|-------|------|-------------|
+| `GameNotFoundError` | `GAME_NOT_FOUND` | Game ID not in registry |
+| `StrategyNotFoundError` | `STRATEGY_NOT_FOUND` | Strategy not registered for a game |
+| `ConfigValidationError` | `CONFIG_VALIDATION_ERROR` | Scenario config fails validation |
+| `SimulationError` | `SIMULATION_ERROR` | Simulation fails during execution |
+| `LLMProviderError` | `LLM_PROVIDER_ERROR` | LLM provider call fails irrecoverably |
+| `LLMNotInstalledError` | `LLM_NOT_INSTALLED` | LLM deps missing (`pip install policy-arena[llm]`) |
+
+## Dependency Architecture
+
+The package uses optional dependency groups to keep the core lightweight:
+
+```
+policy-arena           → mesa, numpy, networkx, polars, pydantic, pyyaml, typer
+policy-arena[llm]      → + langchain-*, langfuse, python-dotenv
+policy-arena[api]      → + fastapi, uvicorn, sse-starlette (planned)
+policy-arena[all]      → everything
+```
+
+LLM modules are lazy-loaded via `__getattr__` in `brains/llm/__init__.py`, `brains/__init__.py`, and `llm/__init__.py`. Game packages use `_lazy_llm()` wrapper functions to defer LLM adapter imports. This means `import policy_arena` works without LangChain installed — the error only surfaces when you actually try to use an LLM brain.
 
 ## Extending PolicyArena
 
@@ -432,3 +468,6 @@ The target module must export a `REGISTRATION` of type `GameRegistration`.
 | Plain dataclasses for types, Pydantic for config | Lightweight core; strict validation only at I/O boundaries |
 | Reproducibility by default | Everything is seeded via Mesa's built-in RNG; configs are snapshot-able |
 | Game adapters for RL and LLM | Same `QLearningBrain` / `LLMBrain` class reused across all games; adapters map state/action spaces |
+| Optional LLM dependencies | Core installs without LangChain; `[llm]` extra adds provider SDKs — keeps installs fast for non-LLM use cases |
+| Structured error hierarchy | All domain errors carry `code` + `details` dict; frontends and API layers can handle errors programmatically |
+| Lazy LLM imports | LLM modules use `__getattr__` and deferred imports so the package loads without LLM deps installed |

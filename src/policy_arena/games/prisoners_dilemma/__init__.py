@@ -9,8 +9,15 @@ from policy_arena.brains.rule_based import (
 )
 from policy_arena.registration import GameRegistration
 
-from .llm_adapter import pd_llm
 from .model import PrisonersDilemmaModel
+
+
+def _lazy_llm(**kw):
+    from .llm_adapter import pd_llm
+
+    return pd_llm(**kw)
+
+
 from .rl_adapter import pd_bandit, pd_best_response, pd_q_learning
 
 REGISTRATION = GameRegistration(
@@ -28,8 +35,8 @@ REGISTRATION = GameRegistration(
         "q_learning": lambda **kw: pd_q_learning(**kw),
         "best_response": lambda **_: pd_best_response(),
         "bandit": lambda **kw: pd_bandit(**kw),
-        "llm": lambda **kw: pd_llm(**kw),
+        "llm": _lazy_llm,
     },
-    llm_factory=pd_llm,
+    llm_factory=_lazy_llm,
     llm_extra_kwargs=frozenset({"payoff_matrix"}),
 )

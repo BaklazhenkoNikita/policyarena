@@ -9,8 +9,15 @@ from .brains import (
     GreedyPlayer,
     SpitefulPlayer,
 )
-from .llm_adapter import ug_llm_combined
 from .model import UltimatumModel
+
+
+def _lazy_llm(**kw):
+    from .llm_adapter import ug_llm_combined
+
+    return ug_llm_combined(**kw)
+
+
 from .rl_adapter import ug_bandit, ug_q_learning
 
 REGISTRATION = GameRegistration(
@@ -24,8 +31,8 @@ REGISTRATION = GameRegistration(
         "adaptive_player": lambda **_: AdaptivePlayer(),
         "q_learning": lambda **kw: ug_q_learning(**kw),
         "bandit": lambda **kw: ug_bandit(**kw),
-        "llm": lambda **kw: ug_llm_combined(**kw),
+        "llm": _lazy_llm,
     },
-    llm_factory=ug_llm_combined,
+    llm_factory=_lazy_llm,
     llm_extra_kwargs=frozenset({"stake"}),
 )

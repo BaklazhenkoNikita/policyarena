@@ -12,8 +12,15 @@ from .brains import (
     Reinforced,
     StickOrSwitch,
 )
-from .llm_adapter import mg_llm
 from .model import MinorityGameModel
+
+
+def _lazy_llm(**kw):
+    from .llm_adapter import mg_llm
+
+    return mg_llm(**kw)
+
+
 from .rl_adapter import mg_bandit, mg_q_learning
 
 REGISTRATION = GameRegistration(
@@ -39,8 +46,8 @@ REGISTRATION = GameRegistration(
         ),
         "q_learning": lambda **kw: mg_q_learning(**kw),
         "bandit": lambda **kw: mg_bandit(**kw),
-        "llm": lambda **kw: mg_llm(**kw),
+        "llm": _lazy_llm,
     },
-    llm_factory=mg_llm,
+    llm_factory=_lazy_llm,
     llm_extra_kwargs=frozenset({"n_agents", "win_payoff", "lose_payoff", "tie_payoff"}),
 )

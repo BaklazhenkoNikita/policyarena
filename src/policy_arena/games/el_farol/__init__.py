@@ -12,8 +12,15 @@ from .brains import (
     ReinforcedAttendance,
     TrendFollower,
 )
-from .llm_adapter import ef_llm
 from .model import ElFarolModel
+
+
+def _lazy_llm(**kw):
+    from .llm_adapter import ef_llm
+
+    return ef_llm(**kw)
+
+
 from .rl_adapter import ef_bandit, ef_q_learning
 
 REGISTRATION = GameRegistration(
@@ -38,9 +45,9 @@ REGISTRATION = GameRegistration(
         ),
         "q_learning": lambda **kw: ef_q_learning(**kw),
         "bandit": lambda **kw: ef_bandit(**kw),
-        "llm": lambda **kw: ef_llm(**kw),
+        "llm": _lazy_llm,
     },
-    llm_factory=ef_llm,
+    llm_factory=_lazy_llm,
     llm_extra_kwargs=frozenset(
         {"n_agents", "threshold", "attend_payoff", "overcrowded_payoff", "stay_payoff"}
     ),

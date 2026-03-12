@@ -4,7 +4,12 @@ from __future__ import annotations
 
 from typing import Any
 
-from langchain_core.language_models.chat_models import BaseChatModel
+try:
+    from langchain_core.language_models.chat_models import BaseChatModel
+except ImportError as _exc:
+    raise ImportError(
+        "LLM dependencies not installed. Install with: pip install policy-arena[llm]"
+    ) from _exc
 
 PROVIDERS = ("ollama", "openai", "anthropic", "gemini", "deepseek")
 

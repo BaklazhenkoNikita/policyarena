@@ -16,17 +16,16 @@ from policy_arena.registry import BRAIN_FACTORIES, MODEL_CLASSES
 
 def _create_brain(game: str, agent_cfg: AgentConfig) -> Brain:
     """Create a single brain instance from agent config."""
+    from policy_arena.errors import GameNotFoundError, StrategyNotFoundError
+
     factories = BRAIN_FACTORIES.get(game)
     if factories is None:
-        raise ValueError(f"No brain factories for game '{game}'")
+        raise GameNotFoundError(game)
 
     factory = factories.get(agent_cfg.strategy)
     if factory is None:
         available = sorted(factories.keys())
-        raise ValueError(
-            f"Unknown strategy '{agent_cfg.strategy}' for game '{game}'. "
-            f"Available: {available}"
-        )
+        raise StrategyNotFoundError(agent_cfg.strategy, game, available)
 
     return factory(**agent_cfg.parameters)
 

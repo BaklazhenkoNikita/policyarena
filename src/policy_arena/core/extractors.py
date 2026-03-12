@@ -10,9 +10,17 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from policy_arena.brains.llm.llm_brain import LLMBrain
 from policy_arena.core.types import Action
 from policy_arena.games.sir.types import HealthState
+
+
+def _is_llm_brain(brain: object) -> bool:
+    """Check if a brain is an LLMBrain without requiring LLM deps."""
+    try:
+        from policy_arena.brains.llm.llm_brain import LLMBrain
+    except ImportError:
+        return False
+    return isinstance(brain, LLMBrain)
 
 
 def extract_agent_states(model: Any, game_id: str) -> list[dict[str, Any]]:
@@ -299,11 +307,11 @@ def extract_agent_states(model: Any, game_id: str) -> list[dict[str, Any]]:
 
         # Extract LLM error if the brain had issues this round
         brain = getattr(agent, "brain", None)
-        if isinstance(brain, LLMBrain) and brain.last_error:
+        if _is_llm_brain(brain) and brain.last_error:
             extra["llm_error"] = brain.last_error
 
         # Extract LLM rationale if available
-        if isinstance(brain, LLMBrain) and brain.last_response_text:
+        if _is_llm_brain(brain) and brain.last_response_text:
             try:
                 parsed = json.loads(brain.last_response_text)
                 if "decisions" in parsed:

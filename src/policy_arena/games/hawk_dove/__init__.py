@@ -5,8 +5,15 @@ from policy_arena.registration import GameRegistration
 
 from .brains import AlwaysDove, AlwaysHawk, Bully, GradualHawk, Prober
 from .brains import Retaliator as HDRetaliator
-from .llm_adapter import hd_llm
 from .model import HawkDoveModel
+
+
+def _lazy_llm(**kw):
+    from .llm_adapter import hd_llm
+
+    return hd_llm(**kw)
+
+
 from .rl_adapter import hd_bandit, hd_best_response, hd_q_learning
 
 REGISTRATION = GameRegistration(
@@ -26,8 +33,8 @@ REGISTRATION = GameRegistration(
         "q_learning": lambda **kw: hd_q_learning(**kw),
         "best_response": lambda **_: hd_best_response(),
         "bandit": lambda **kw: hd_bandit(**kw),
-        "llm": lambda **kw: hd_llm(**kw),
+        "llm": _lazy_llm,
     },
-    llm_factory=hd_llm,
+    llm_factory=_lazy_llm,
     llm_extra_kwargs=frozenset({"payoff_matrix"}),
 )

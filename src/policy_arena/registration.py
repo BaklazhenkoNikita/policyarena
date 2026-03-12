@@ -41,9 +41,9 @@ class GameRegistry:
 
     def get(self, game_id: str) -> GameRegistration:
         if game_id not in self._games:
-            raise KeyError(
-                f"Unknown game '{game_id}'. Available: {sorted(self._games)}"
-            )
+            from policy_arena.errors import GameNotFoundError
+
+            raise GameNotFoundError(game_id, sorted(self._games))
         return self._games[game_id]
 
     def __contains__(self, game_id: str) -> bool:

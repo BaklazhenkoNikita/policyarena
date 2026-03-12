@@ -25,6 +25,10 @@ dependencies = [
     "pydantic>=2.12.5",
     "pyyaml>=6.0",
     "typer>=0.15",
+]
+
+[project.optional-dependencies]
+llm = [
     "langchain-core>=0.3",
     "langchain-ollama>=0.3",
     "langchain-openai>=0.3",
@@ -32,6 +36,14 @@ dependencies = [
     "langchain-google-genai>=2.0",
     "langfuse>=2.10",
     "python-dotenv>=1.0",
+]
+api = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.34",
+    "sse-starlette>=2.0",
+]
+all = [
+    "policy-arena[llm,api]",
 ]
 
 [project.scripts]

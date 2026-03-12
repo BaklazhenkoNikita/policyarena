@@ -97,8 +97,19 @@ def _intercept_sdk_retries(
             lg.removeHandler(handler)
 
 
-from langchain_core.language_models.chat_models import BaseChatModel
-from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
+try:
+    from langchain_core.language_models.chat_models import BaseChatModel
+    from langchain_core.messages import (
+        AIMessage,
+        BaseMessage,
+        HumanMessage,
+        SystemMessage,
+    )
+except ImportError as _exc:
+    raise ImportError(
+        "LLM dependencies not installed. Install with: pip install policy-arena[llm]"
+    ) from _exc
+
 from pydantic import BaseModel
 
 from policy_arena.brains.base import Brain

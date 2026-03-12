@@ -40,14 +40,11 @@ class ScenarioConfig(BaseModel):
     @field_validator("game")
     @classmethod
     def validate_game(cls, v: str) -> str:
-        valid_games = {
-            "prisoners_dilemma",
-            "public_goods",
-            "ultimatum",
-            "el_farol",
-            "schelling",
-            "sir",
-        }
+        from policy_arena.registration import get_registry
+
+        valid_games = set(get_registry().keys())
         if v not in valid_games:
-            raise ValueError(f"Unknown game '{v}'. Valid: {sorted(valid_games)}")
+            from policy_arena.errors import GameNotFoundError
+
+            raise GameNotFoundError(v, sorted(valid_games))
         return v

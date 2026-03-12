@@ -9,8 +9,15 @@ from .brains import (
     FreeRider,
     FullContributor,
 )
-from .llm_adapter import pg_llm
 from .model import PublicGoodsModel
+
+
+def _lazy_llm(**kw):
+    from .llm_adapter import pg_llm
+
+    return pg_llm(**kw)
+
+
 from .rl_adapter import pg_bandit, pg_q_learning
 
 REGISTRATION = GameRegistration(
@@ -26,8 +33,8 @@ REGISTRATION = GameRegistration(
         "average_up": lambda **kw: AverageUp(uplift=kw.get("uplift", 2.0)),
         "q_learning": lambda **kw: pg_q_learning(**kw),
         "bandit": lambda **kw: pg_bandit(**kw),
-        "llm": lambda **kw: pg_llm(**kw),
+        "llm": _lazy_llm,
     },
-    llm_factory=pg_llm,
+    llm_factory=_lazy_llm,
     llm_extra_kwargs=frozenset({"endowment", "multiplier", "n_players"}),
 )

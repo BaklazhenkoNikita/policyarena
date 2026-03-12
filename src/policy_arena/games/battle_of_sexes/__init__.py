@@ -12,8 +12,15 @@ from .brains import (
     MixedStrategy,
     Stubborn,
 )
-from .llm_adapter import bos_llm
 from .model import BattleOfSexesModel
+
+
+def _lazy_llm(**kw):
+    from .llm_adapter import bos_llm
+
+    return bos_llm(**kw)
+
+
 from .rl_adapter import bos_bandit, bos_best_response, bos_q_learning
 
 REGISTRATION = GameRegistration(
@@ -37,8 +44,8 @@ REGISTRATION = GameRegistration(
         "q_learning": lambda **kw: bos_q_learning(**kw),
         "best_response": lambda **_: bos_best_response(),
         "bandit": lambda **kw: bos_bandit(**kw),
-        "llm": lambda **kw: bos_llm(**kw),
+        "llm": _lazy_llm,
     },
-    llm_factory=bos_llm,
+    llm_factory=_lazy_llm,
     llm_extra_kwargs=frozenset({"payoff_matrix"}),
 )

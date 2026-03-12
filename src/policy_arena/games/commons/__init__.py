@@ -3,8 +3,15 @@
 from policy_arena.registration import GameRegistration
 
 from .brains import Adaptive, FixedHarvest, Greedy, Opportunist, Restraint, Sustainable
-from .llm_adapter import tc_llm
 from .model import CommonsModel
+
+
+def _lazy_llm(**kw):
+    from .llm_adapter import tc_llm
+
+    return tc_llm(**kw)
+
+
 from .rl_adapter import tc_bandit, tc_q_learning
 
 REGISTRATION = GameRegistration(
@@ -19,9 +26,9 @@ REGISTRATION = GameRegistration(
         "opportunist": lambda **kw: Opportunist(uplift=kw.get("uplift", 1.2)),
         "q_learning": lambda **kw: tc_q_learning(**kw),
         "bandit": lambda **kw: tc_bandit(**kw),
-        "llm": lambda **kw: tc_llm(**kw),
+        "llm": _lazy_llm,
     },
-    llm_factory=tc_llm,
+    llm_factory=_lazy_llm,
     llm_extra_kwargs=frozenset(
         {"max_resource", "growth_rate", "harvest_cap", "n_agents"}
     ),

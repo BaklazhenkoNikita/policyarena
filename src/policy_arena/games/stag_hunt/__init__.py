@@ -11,8 +11,15 @@ from .brains import (
     OptimisticHare,
     TrustButVerify,
 )
-from .llm_adapter import sh_llm
 from .model import StagHuntModel
+
+
+def _lazy_llm(**kw):
+    from .llm_adapter import sh_llm
+
+    return sh_llm(**kw)
+
+
 from .rl_adapter import sh_bandit, sh_best_response, sh_q_learning
 
 REGISTRATION = GameRegistration(
@@ -34,8 +41,8 @@ REGISTRATION = GameRegistration(
         "q_learning": lambda **kw: sh_q_learning(**kw),
         "best_response": lambda **_: sh_best_response(),
         "bandit": lambda **kw: sh_bandit(**kw),
-        "llm": lambda **kw: sh_llm(**kw),
+        "llm": _lazy_llm,
     },
-    llm_factory=sh_llm,
+    llm_factory=_lazy_llm,
     llm_extra_kwargs=frozenset({"payoff_matrix"}),
 )

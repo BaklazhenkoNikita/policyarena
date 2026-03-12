@@ -11,8 +11,15 @@ from .brains import (
     Reciprocator,
 )
 from .brains import FairPlayer as TGFairPlayer
-from .llm_adapter import tg_llm_combined
 from .model import TrustGameModel
+
+
+def _lazy_llm(**kw):
+    from .llm_adapter import tg_llm_combined
+
+    return tg_llm_combined(**kw)
+
+
 from .rl_adapter import tg_bandit, tg_q_learning
 
 REGISTRATION = GameRegistration(
@@ -28,8 +35,8 @@ REGISTRATION = GameRegistration(
         "adaptive_trust": lambda **_: AdaptiveTrust(),
         "q_learning": lambda **kw: tg_q_learning(**kw),
         "bandit": lambda **kw: tg_bandit(**kw),
-        "llm": lambda **kw: tg_llm_combined(**kw),
+        "llm": _lazy_llm,
     },
-    llm_factory=tg_llm_combined,
+    llm_factory=_lazy_llm,
     llm_extra_kwargs=frozenset({"endowment", "multiplier"}),
 )

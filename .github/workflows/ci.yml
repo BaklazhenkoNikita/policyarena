@@ -25,16 +25,16 @@ jobs:
         run: uv sync --python ${{ matrix.python-version }} --extra llm
 
       - name: Lint
-        run: uv run ruff check src/ tests/
+        run: uv run --python ${{ matrix.python-version }} ruff check src/ tests/
 
       - name: Format check
-        run: uv run ruff format --check src/ tests/
+        run: uv run --python ${{ matrix.python-version }} ruff format --check src/ tests/
 
       - name: Type check
-        run: uv run mypy src/policy_arena/
+        run: uv run --python ${{ matrix.python-version }} mypy src/policy_arena/
 
       - name: Run tests
-        run: uv run pytest tests/ -x -q --cov=policy_arena --cov-report=term-missing --cov-fail-under=65
+        run: uv run --python ${{ matrix.python-version }} pytest tests/ -x -q --cov=policy_arena --cov-report=term-missing --cov-fail-under=65
 
   build:
     runs-on: ubuntu-latest

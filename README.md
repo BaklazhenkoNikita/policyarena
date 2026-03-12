@@ -267,6 +267,7 @@ Error types: `GameNotFoundError`, `StrategyNotFoundError`, `ConfigValidationErro
 git clone https://github.com/BaklazhenkoNikita/policyarena.git
 cd policyarena
 uv sync --all-extras          # install all optional deps
+uv run pre-commit install     # set up ruff check + format hooks
 uv run pytest tests/ -x       # 400 tests
 uv run ruff check src/ tests/
 uv run ruff format --check src/ tests/

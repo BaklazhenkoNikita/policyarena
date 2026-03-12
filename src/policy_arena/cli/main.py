@@ -108,9 +108,16 @@ def run(
     export_yaml: bool = typer.Option(
         False, "--export-yaml", help="Export the scenario config as YAML."
     ),
+    verbose: bool = typer.Option(
+        False, "--verbose", "-v", help="Enable DEBUG logging output."
+    ),
 ) -> None:
     """Run a simulation from a YAML scenario config."""
+    from policy_arena._logging import configure_logging
     from policy_arena.io.config_loader import build_scenario, load_config
+
+    if verbose:
+        configure_logging("DEBUG")
 
     if example and scenario_path:
         typer.echo(

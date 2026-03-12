@@ -1,0 +1,26 @@
+name: "Battle of the Sexes — Coordination"
+description: "Can agents learn to coordinate despite conflicting preferences?"
+game: battle_of_sexes
+rounds: 200
+seed: 42
+
+agents:
+  - name: always_a
+    strategy: always_a
+
+  - name: always_b
+    strategy: always_b
+
+  - name: alternator
+    strategy: alternator
+
+  - name: compromiser
+    strategy: compromiser
+
+  - name: q_learner
+    type: rl
+    strategy: q_learning
+    parameters:
+      learning_rate: 0.1
+      epsilon: 0.3
+      epsilon_decay: 0.99

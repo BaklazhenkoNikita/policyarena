@@ -1,12 +1,27 @@
-from policy_arena.games.public_goods.agents import PGAgent
-from policy_arena.games.public_goods.llm_adapter import pg_llm
-from policy_arena.games.public_goods.model import PublicGoodsModel
-from policy_arena.games.public_goods.rl_adapter import pg_bandit, pg_q_learning
+"""Public Goods — N-player contribution game."""
 
-__all__ = [
-    "PublicGoodsModel",
-    "PGAgent",
-    "pg_llm",
-    "pg_q_learning",
-    "pg_bandit",
-]
+from policy_arena.registration import GameRegistration
+
+from .brains import AverageUp, ConditionalCooperator, FixedContributor, FreeRider, FullContributor
+from .llm_adapter import pg_llm
+from .model import PublicGoodsModel
+from .rl_adapter import pg_bandit, pg_q_learning
+
+REGISTRATION = GameRegistration(
+    id="public_goods",
+    model_class=PublicGoodsModel,
+    brain_factories={
+        "free_rider": lambda **_: FreeRider(),
+        "full_contributor": lambda **_: FullContributor(),
+        "fixed_contributor": lambda **kw: FixedContributor(
+            fraction=kw.get("fraction", 0.5)
+        ),
+        "conditional_cooperator": lambda **_: ConditionalCooperator(),
+        "average_up": lambda **kw: AverageUp(uplift=kw.get("uplift", 2.0)),
+        "q_learning": lambda **kw: pg_q_learning(**kw),
+        "bandit": lambda **kw: pg_bandit(**kw),
+        "llm": lambda **kw: pg_llm(**kw),
+    },
+    llm_factory=pg_llm,
+    llm_extra_kwargs=frozenset({"endowment", "multiplier", "n_players"}),
+)

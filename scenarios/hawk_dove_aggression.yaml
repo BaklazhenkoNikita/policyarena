@@ -1,0 +1,25 @@
+name: "Hawk-Dove — Aggression Dynamics"
+description: "Hawks vs doves with RL agents learning optimal aggression levels"
+game: hawk_dove
+rounds: 200
+seed: 42
+
+agents:
+  - name: hawk
+    strategy: always_hawk
+    count: 2
+
+  - name: dove
+    strategy: always_dove
+    count: 2
+
+  - name: retaliator
+    strategy: retaliator
+
+  - name: q_learner
+    type: rl
+    strategy: q_learning
+    parameters:
+      learning_rate: 0.1
+      epsilon: 0.25
+      epsilon_decay: 0.99

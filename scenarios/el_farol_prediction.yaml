@@ -1,0 +1,33 @@
+name: "El Farol — Prediction Strategies"
+description: "Different prediction strategies competing for bar attendance"
+game: el_farol
+rounds: 100
+seed: 42
+
+game_params:
+  capacity_threshold: 0.6
+
+agents:
+  - name: always_attend
+    strategy: always_attend
+    count: 3
+
+  - name: moving_avg
+    strategy: moving_average
+    count: 3
+
+  - name: contrarian
+    strategy: contrarian
+    count: 2
+
+  - name: trend
+    strategy: trend_follower
+    count: 2
+
+  - name: q_learner
+    type: rl
+    strategy: q_learning
+    count: 2
+    parameters:
+      learning_rate: 0.1
+      epsilon: 0.2

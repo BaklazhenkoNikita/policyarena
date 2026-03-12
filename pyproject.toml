@@ -26,6 +26,21 @@ dependencies = [
 [project.scripts]
 policy-arena = "policy_arena.cli.main:app"
 
+[project.entry-points."policy_arena.games"]
+prisoners_dilemma = "policy_arena.games.prisoners_dilemma"
+public_goods = "policy_arena.games.public_goods"
+ultimatum = "policy_arena.games.ultimatum"
+el_farol = "policy_arena.games.el_farol"
+schelling = "policy_arena.games.schelling"
+sir = "policy_arena.games.sir"
+stag_hunt = "policy_arena.games.stag_hunt"
+battle_of_sexes = "policy_arena.games.battle_of_sexes"
+hawk_dove = "policy_arena.games.hawk_dove"
+chicken = "policy_arena.games.chicken"
+trust_game = "policy_arena.games.trust_game"
+commons = "policy_arena.games.commons"
+minority_game = "policy_arena.games.minority_game"
+
 [build-system]
 requires = ["uv_build>=0.10.5,<0.11.0"]
 build-backend = "uv_build"

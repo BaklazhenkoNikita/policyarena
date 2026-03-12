@@ -18,7 +18,7 @@ app = typer.Typer(
 
 
 def _step_model(model: Any, game_id: str, n_rounds: int) -> list[dict[str, Any]]:
-    """Step through a model and collect StepPayload-compatible dicts per round."""
+    """Step through a model and collect per-round data."""
     from policy_arena.core.extractors import (
         extract_agent_states,
         extract_game_data,
@@ -75,15 +75,6 @@ def _write_run_json(
         json.dump(snapshot, f, default=str)
 
 
-def _write_config_yaml(config: Any, out_path: Path) -> None:
-    """Write the scenario config as a YAML file."""
-    import yaml
-
-    data = config.model_dump()
-    with open(out_path, "w") as f:
-        yaml.dump(data, f, default_flow_style=False, sort_keys=False)
-
-
 @app.command()
 def run(
     scenario_path: Path = typer.Argument(
@@ -130,7 +121,6 @@ def run(
 
     scenario = build_scenario(config)
 
-    # Build model and step through it to capture per-round data
     model = scenario.world_class(
         **scenario.world_params,
         rng=scenario.seed,
@@ -203,16 +193,114 @@ def run(
 
 @app.command()
 def games() -> None:
-    """List available game templates."""
-    from policy_arena.io.config_loader import BRAIN_FACTORIES
+    """List available games and their strategies."""
+    from policy_arena.registration import get_registry
 
-    typer.echo("Available games:")
+    registry = get_registry()
+    typer.echo(f"Available games ({len(registry)}):")
     typer.echo()
-    for game_id, factories in sorted(BRAIN_FACTORIES.items()):
-        strategies = sorted(factories.keys())
+    for game_id in sorted(registry):
+        reg = registry.get(game_id)
+        strategies = sorted(reg.brain_factories.keys())
+        has_llm = reg.llm_factory is not None
         typer.echo(f"  {game_id}")
         typer.echo(f"    Strategies: {', '.join(strategies)}")
+        if has_llm:
+            typer.echo("    LLM support: yes")
         typer.echo()
+
+
+@app.command()
+def info(
+    game_id: str = typer.Argument(..., help="Game ID to show details for."),
+) -> None:
+    """Show detailed information about a specific game."""
+    from policy_arena.registration import get_registry
+
+    registry = get_registry()
+    if game_id not in registry:
+        available = sorted(registry.keys())
+        typer.echo(f"Unknown game '{game_id}'.", err=True)
+        typer.echo(f"Available: {', '.join(available)}", err=True)
+        raise typer.Exit(1)
+
+    reg = registry.get(game_id)
+    typer.echo(f"Game: {game_id}")
+    typer.echo(f"  Model class: {reg.model_class.__name__}")
+    typer.echo(f"  LLM support: {'yes' if reg.llm_factory else 'no'}")
+    typer.echo()
+    typer.echo("  Strategies:")
+    for name in sorted(reg.brain_factories):
+        if name == "llm":
+            category = "llm"
+        elif name in ("q_learning", "best_response", "bandit"):
+            category = "rl"
+        else:
+            category = "rule"
+        typer.echo(f"    {name:<30} [{category}]")
+    if reg.llm_extra_kwargs:
+        typer.echo()
+        typer.echo(f"  LLM extra params: {', '.join(sorted(reg.llm_extra_kwargs))}")
+
+
+@app.command()
+def validate(
+    config_path: Path = typer.Argument(
+        ...,
+        help="Path to a YAML scenario config file.",
+        exists=True,
+        readable=True,
+    ),
+) -> None:
+    """Validate a YAML config without running the simulation."""
+    from policy_arena.io.config_loader import build_scenario, load_config
+    from policy_arena.registration import get_registry
+
+    try:
+        config = load_config(config_path)
+    except Exception as e:
+        typer.echo(f"Config error: {e}", err=True)
+        raise typer.Exit(1) from e
+
+    registry = get_registry()
+    if config.game not in registry:
+        typer.echo(f"Unknown game: {config.game}", err=True)
+        typer.echo(f"Available: {', '.join(sorted(registry.keys()))}", err=True)
+        raise typer.Exit(1)
+
+    reg = registry.get(config.game)
+    errors: list[str] = []
+    for agent in config.agents:
+        if agent.strategy not in reg.brain_factories:
+            errors.append(
+                f"Unknown strategy '{agent.strategy}' for game '{config.game}'. "
+                f"Available: {sorted(reg.brain_factories.keys())}"
+            )
+
+    if errors:
+        for err in errors:
+            typer.echo(f"Error: {err}", err=True)
+        raise typer.Exit(1)
+
+    try:
+        build_scenario(config)
+    except Exception as e:
+        typer.echo(f"Scenario build error: {e}", err=True)
+        raise typer.Exit(1) from e
+
+    typer.echo(f"Config valid: {config_path}")
+    typer.echo(f"  Game: {config.game}")
+    typer.echo(f"  Agents: {sum(a.count for a in config.agents)}")
+    typer.echo(f"  Rounds: {config.rounds}")
+    typer.echo(f"  Seed: {config.seed}")
+
+
+@app.command(name="version")
+def version_cmd() -> None:
+    """Show the PolicyArena version."""
+    from policy_arena import __version__
+
+    typer.echo(f"policy-arena {__version__}")
 
 
 if __name__ == "__main__":

@@ -78,10 +78,11 @@ def _write_run_json(
 @app.command()
 def run(
     scenario_path: Path = typer.Argument(
-        ...,
+        None,
         help="Path to a YAML scenario config file.",
-        exists=True,
-        readable=True,
+    ),
+    example: str | None = typer.Option(
+        None, "--example", "-e", help="Run a built-in example scenario by name."
     ),
     seed: int | None = typer.Option(
         None, "--seed", "-s", help="Override the random seed."
@@ -104,6 +105,23 @@ def run(
 ) -> None:
     """Run a simulation from a YAML scenario config."""
     from policy_arena.io.config_loader import build_scenario, load_config
+
+    if example and scenario_path:
+        typer.echo("Error: provide either a scenario path or --example, not both.", err=True)
+        raise typer.Exit(1)
+
+    if example:
+        from policy_arena import get_scenario_path, list_scenarios
+
+        try:
+            scenario_path = get_scenario_path(example)
+        except FileNotFoundError:
+            typer.echo(f"Unknown example '{example}'.", err=True)
+            typer.echo(f"Available: {', '.join(list_scenarios())}", err=True)
+            raise typer.Exit(1)
+    elif scenario_path is None:
+        typer.echo("Error: provide a scenario path or use --example.", err=True)
+        raise typer.Exit(1)
 
     config = load_config(scenario_path)
 
@@ -293,6 +311,20 @@ def validate(
     typer.echo(f"  Agents: {sum(a.count for a in config.agents)}")
     typer.echo(f"  Rounds: {config.rounds}")
     typer.echo(f"  Seed: {config.seed}")
+
+
+@app.command()
+def examples() -> None:
+    """List built-in example scenarios."""
+    from policy_arena import list_scenarios
+
+    scenarios = list_scenarios()
+    typer.echo(f"Built-in scenarios ({len(scenarios)}):")
+    typer.echo()
+    for name in scenarios:
+        typer.echo(f"  {name}")
+    typer.echo()
+    typer.echo("Run with: policy-arena run --example <name>")
 
 
 @app.command(name="version")

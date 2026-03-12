@@ -1,0 +1,24 @@
+name: "Chicken — Brinkmanship"
+description: "Cautious vs aggressive drivers with RL learning when to swerve"
+game: chicken
+rounds: 200
+seed: 42
+
+agents:
+  - name: swerve
+    strategy: always_swerve
+    count: 2
+
+  - name: brinksman
+    strategy: brinksman
+
+  - name: cautious
+    strategy: cautious
+
+  - name: q_learner
+    type: rl
+    strategy: q_learning
+    parameters:
+      learning_rate: 0.1
+      epsilon: 0.2
+      epsilon_decay: 0.995

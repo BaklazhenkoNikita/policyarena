@@ -1,0 +1,25 @@
+name: "Trust Game — Reciprocity"
+description: "Do agents develop trust through repeated interactions?"
+game: trust_game
+rounds: 150
+seed: 42
+
+agents:
+  - name: full_trust
+    strategy: full_trust
+
+  - name: no_trust
+    strategy: no_trust
+
+  - name: gradual
+    strategy: gradual_trust
+
+  - name: reciprocator
+    strategy: reciprocator
+
+  - name: q_learner
+    type: rl
+    strategy: q_learning
+    parameters:
+      learning_rate: 0.1
+      epsilon: 0.2

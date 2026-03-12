@@ -1,0 +1,26 @@
+name: "Ultimatum — Fairness Norms"
+description: "Fair vs greedy proposers against adaptive responders"
+game: ultimatum
+rounds: 150
+seed: 42
+
+agents:
+  - name: fair
+    strategy: fair_player
+    count: 2
+
+  - name: greedy
+    strategy: greedy_player
+
+  - name: generous
+    strategy: generous_player
+
+  - name: adaptive
+    strategy: adaptive_player
+
+  - name: q_learner
+    type: rl
+    strategy: q_learning
+    parameters:
+      learning_rate: 0.1
+      epsilon: 0.2

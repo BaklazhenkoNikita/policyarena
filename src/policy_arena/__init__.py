@@ -29,7 +29,9 @@ from policy_arena.registration import GameRegistration, get_registry
 if TYPE_CHECKING:
     from policy_arena.io.schemas import ScenarioConfig
 
-__version__ = "0.1.0"
+from importlib.metadata import version as _pkg_version
+
+__version__ = _pkg_version("policy-arena")
 
 __all__ = [
     # Core
@@ -43,10 +45,43 @@ __all__ = [
     "Scenario",
     # High-level API
     "get_registry",
+    "get_scenario_path",
     "list_games",
+    "list_scenarios",
     "load_config",
     "run",
 ]
+
+
+def list_scenarios() -> list[str]:
+    """Return sorted list of built-in scenario names."""
+    scenarios_dir = Path(__file__).parent / "scenarios"
+    return sorted(p.stem for p in scenarios_dir.glob("*.yaml"))
+
+
+def get_scenario_path(name: str) -> Path:
+    """Return the path to a built-in scenario YAML file.
+
+    Parameters
+    ----------
+    name
+        Scenario name (without .yaml extension).
+        Use ``list_scenarios()`` to see available names.
+
+    Raises
+    ------
+    FileNotFoundError
+        If no built-in scenario matches the name.
+    """
+    scenarios_dir = Path(__file__).parent / "scenarios"
+    path = scenarios_dir / f"{name}.yaml"
+    if not path.exists():
+        available = list_scenarios()
+        raise FileNotFoundError(
+            f"No built-in scenario '{name}'. "
+            f"Available: {available}"
+        )
+    return path
 
 
 def load_config(path: str | Path) -> ScenarioConfig:

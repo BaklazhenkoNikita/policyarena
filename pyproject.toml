@@ -1,9 +1,20 @@
 [project]
 name = "policy-arena"
-version = "0.1.0"
+version = "0.1.1"
 description = "Cross-paradigm simulation engine for game-theoretic agent research"
+license = "MIT"
+readme = "README.md"
 authors = [
     { name = "Nikit Baklazhenko", email = "vikivikovik@gmail.com" }
+]
+keywords = ["game-theory", "simulation", "multi-agent", "reinforcement-learning", "llm"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 requires-python = ">=3.12"
 dependencies = [

@@ -1,0 +1,25 @@
+name: "Stag Hunt — Trust vs Caution"
+description: "Can cooperative strategies survive among cautious agents?"
+game: stag_hunt
+rounds: 150
+seed: 42
+
+agents:
+  - name: always_stag
+    strategy: always_stag
+    count: 2
+
+  - name: cautious
+    strategy: cautious_stag
+    count: 2
+
+  - name: trust_but_verify
+    strategy: trust_but_verify
+
+  - name: q_learner
+    type: rl
+    strategy: q_learning
+    parameters:
+      learning_rate: 0.1
+      epsilon: 0.2
+      epsilon_decay: 0.995

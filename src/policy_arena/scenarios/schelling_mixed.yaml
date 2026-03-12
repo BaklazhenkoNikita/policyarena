@@ -1,0 +1,26 @@
+name: Schelling Mixed Tolerance
+description: Moderate, tolerant, and intolerant agents on a 20x20 grid
+game: schelling
+rounds: 50
+seed: 42
+game_params:
+  width: 20
+  height: 20
+  density: 0.8
+  tolerance: 0.375
+agents:
+  - name: moderate
+    strategy: moderate
+    count: 40
+    parameters:
+      threshold: 0.375
+  - name: tolerant
+    strategy: tolerant
+    count: 20
+    parameters:
+      threshold: 0.25
+  - name: intolerant
+    strategy: intolerant
+    count: 10
+    parameters:
+      threshold: 0.625

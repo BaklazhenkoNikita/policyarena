@@ -1,0 +1,25 @@
+name: "Commons — Sustainability"
+description: "Greedy vs sustainable extraction strategies on a shared resource"
+game: commons
+rounds: 150
+seed: 42
+
+agents:
+  - name: greedy
+    strategy: greedy
+    count: 2
+
+  - name: sustainable
+    strategy: sustainable
+    count: 2
+
+  - name: adaptive
+    strategy: adaptive
+
+  - name: q_learner
+    type: rl
+    strategy: q_learning
+    parameters:
+      learning_rate: 0.1
+      epsilon: 0.2
+      epsilon_decay: 0.995

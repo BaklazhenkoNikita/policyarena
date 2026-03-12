@@ -1,0 +1,26 @@
+name: "Minority Game — Contrarian Strategies"
+description: "Pattern matchers vs contrarians in the minority game"
+game: minority_game
+rounds: 100
+seed: 42
+
+agents:
+  - name: random
+    strategy: random_choice
+    count: 3
+
+  - name: contrarian
+    strategy: contrarian
+    count: 2
+
+  - name: pattern
+    strategy: pattern_matcher
+    count: 2
+
+  - name: q_learner
+    type: rl
+    strategy: q_learning
+    count: 2
+    parameters:
+      learning_rate: 0.1
+      epsilon: 0.2

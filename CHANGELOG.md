@@ -4,6 +4,16 @@ All notable changes to PolicyArena will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.5] - 2026-03-15
+
+### Added
+- **Lobbying / Rent-Seeking Contest** game (Tullock Contest) — N-player contest where agents spend resources to win a prize
+  - Rule-based brains: Nash Equilibrium, Big Spender, Conservative, Fixed Spend, Best Response, Abstainer
+  - RL brains: Q-learning, Bandit
+  - LLM brain with full observation formatting and structured output
+  - Built-in scenario: `lobbying_contest`
+  - Metrics: total dissipation, avg spend, winner spend, rent dissipation rate, social welfare, strategy entropy
+
 ## [0.1.4] - 2026-03-15
 
 ### Added

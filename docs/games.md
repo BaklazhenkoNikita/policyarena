@@ -29,6 +29,7 @@ All agents participate simultaneously in each round.
 | **El Farol Bar** | `el_farol` | Attend only if crowd is below threshold |
 | **Tragedy of the Commons** | `commons` | Extract from a shared renewable resource |
 | **Minority Game** | `minority_game` | Choose between two options — minority wins |
+| **Lobbying Contest** | `lobbying` | Tullock rent-seeking contest — spend to win a prize, highest spender most likely wins |
 
 ## Spatial / Network
 

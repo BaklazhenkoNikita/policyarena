@@ -121,8 +121,8 @@ results = pa.run(pa.get_scenario_path("pd_rl_vs_rulebased"), seed=123, rounds=50
 # List available games
 pa.list_games()
 # ['battle_of_sexes', 'chicken', 'commons', 'cournot', 'el_farol',
-#  'hawk_dove', 'minority_game', 'prisoners_dilemma', 'public_goods',
-#  'schelling', 'sir', 'stag_hunt', 'trust_game', 'ultimatum']
+#  'hawk_dove', 'lobbying', 'minority_game', 'prisoners_dilemma',
+#  'public_goods', 'schelling', 'sir', 'stag_hunt', 'trust_game', 'ultimatum']
 
 # Inspect a game's available strategies
 registry = pa.get_registry()
@@ -270,6 +270,7 @@ See the [architecture docs](https://BaklazhenkoNikita.github.io/policyarena/arch
 | **El Farol Bar** | Attend only if crowd is below threshold |
 | **Tragedy of the Commons** | Extract from a shared renewable resource |
 | **Minority Game** | Choose between two options — minority wins |
+| **Lobbying Contest** | Tullock rent-seeking contest — spend to win a prize, highest spender most likely wins |
 
 ### Spatial / Network
 

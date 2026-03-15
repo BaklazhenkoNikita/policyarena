@@ -8,3 +8,5 @@ build/
 .env
 *.parquet
 results/
+images/
+site/

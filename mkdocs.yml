@@ -1,0 +1,59 @@
+site_name: PolicyArena
+site_url: https://BaklazhenkoNikita.github.io/policyarena/
+site_description: Cross-paradigm simulation engine for game-theoretic agent research
+repo_url: https://github.com/BaklazhenkoNikita/policyarena
+repo_name: BaklazhenkoNikita/policyarena
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+    - search.suggest
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_source: true
+            show_root_heading: true
+            members_order: source
+            docstring_style: numpy
+            merge_init_into_class: true
+            show_if_no_docstring: false
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Architecture: architecture.md
+  - Configuration: configuration.md
+  - Built-in Games: games.md
+  - API Reference:
+      - reference/index.md
+      - Core: reference/core.md
+      - Brains: reference/brains.md
+      - Metrics: reference/metrics.md
+      - IO: reference/io.md
+  - Changelog: changelog.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true

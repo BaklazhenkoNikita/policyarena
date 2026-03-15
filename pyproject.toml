@@ -46,6 +46,13 @@ all = [
     "policy-arena[llm,api]",
 ]
 
+[project.urls]
+Homepage = "https://www.policyarena.dev/"
+Repository = "https://github.com/BaklazhenkoNikita/policyarena"
+Documentation = "https://BaklazhenkoNikita.github.io/policyarena/"
+Issues = "https://github.com/BaklazhenkoNikita/policyarena/issues"
+Changelog = "https://github.com/BaklazhenkoNikita/policyarena/blob/main/CHANGELOG.md"
+
 [project.scripts]
 policy-arena = "policy_arena.cli.main:app"
 
@@ -75,6 +82,10 @@ dev = [
     "pytest>=8.0",
     "pytest-cov>=6.0",
     "ruff>=0.11",
+]
+docs = [
+    "mkdocs-material>=9.0",
+    "mkdocstrings[python]>=0.25",
 ]
 
 [tool.ruff]

@@ -53,8 +53,10 @@ def _nf_observation_formatter(observations: list[Any]) -> str:
     parts.append(f"You are agent {obs.my_agent_index}.")
 
     if obs.my_current_links:
-        links_str = ", ".join(str(l) for l in obs.my_current_links)
-        parts.append(f"Your current links: [{links_str}] (degree: {len(obs.my_current_links)})")
+        links_str = ", ".join(str(link) for link in obs.my_current_links)
+        parts.append(
+            f"Your current links: [{links_str}] (degree: {len(obs.my_current_links)})"
+        )
     else:
         parts.append("You currently have no links.")
 
@@ -75,7 +77,9 @@ def _nf_observation_formatter(observations: list[Any]) -> str:
         cumulative = sum(obs.my_past_payoffs)
         avg_pay = sum(recent) / len(recent)
         parts.append(f"Your recent payoffs: [{pay_str}]")
-        parts.append(f"Your avg recent payoff: {avg_pay:.2f}, cumulative: {cumulative:.1f}")
+        parts.append(
+            f"Your avg recent payoff: {avg_pay:.2f}, cumulative: {cumulative:.1f}"
+        )
 
     if obs.my_past_links:
         recent_links = obs.my_past_links[-5:]
@@ -83,8 +87,8 @@ def _nf_observation_formatter(observations: list[Any]) -> str:
         start = max(1, len(obs.my_past_links) - 4)
         for i, links in enumerate(recent_links):
             rnum = start + i
-            l_str = ", ".join(str(l) for l in links) if links else "none"
-            parts.append(f"  Round {rnum}: [{l_str}]")
+            link_str = ", ".join(str(link) for link in links) if links else "none"
+            parts.append(f"  Round {rnum}: [{link_str}]")
 
     if obs.network_density_history:
         recent_density = obs.network_density_history[-10:]
@@ -102,7 +106,9 @@ def _nf_action_extractor(response: NetworkDecision, n: int) -> list[list[int]]:
 
 
 def _nf_result_formatter(result: Any) -> str:
-    links_str = ", ".join(str(l) for l in result.my_links) if result.my_links else "none"
+    links_str = (
+        ", ".join(str(link) for link in result.my_links) if result.my_links else "none"
+    )
     return (
         f"[Result: your links [{links_str}], "
         f"degree {result.my_degree}, "

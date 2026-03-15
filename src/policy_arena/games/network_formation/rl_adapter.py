@@ -25,10 +25,7 @@ def _nf_state_encoder(obs) -> str:
     else:
         deg_bin = "full_deg"
 
-    if obs.network_density_history:
-        density = obs.network_density_history[-1]
-    else:
-        density = 0.0
+    density = obs.network_density_history[-1] if obs.network_density_history else 0.0
 
     if density < 0.25:
         den_bin = "sparse"
@@ -70,7 +67,9 @@ class _NFQLearningBrain(QLearningBrain):
         self._my_index = observation.my_agent_index
         num_links = super().decide(observation)
         num_links = min(num_links, observation.max_links, observation.n_players - 1)
-        others = [i for i in range(observation.n_players) if i != observation.my_agent_index]
+        others = [
+            i for i in range(observation.n_players) if i != observation.my_agent_index
+        ]
         k = min(num_links, len(others))
         if k <= 0:
             return []
@@ -100,7 +99,9 @@ class _NFBanditBrain(BanditBrain):
         self._my_index = observation.my_agent_index
         num_links = super().decide(observation)
         num_links = min(num_links, observation.max_links, observation.n_players - 1)
-        others = [i for i in range(observation.n_players) if i != observation.my_agent_index]
+        others = [
+            i for i in range(observation.n_players) if i != observation.my_agent_index
+        ]
         k = min(num_links, len(others))
         if k <= 0:
             return []

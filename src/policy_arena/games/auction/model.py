@@ -111,7 +111,6 @@ class AuctionModel(mesa.Model):
 
     def step(self) -> None:
         agents = list(self.agents)
-        n = len(agents)
 
         # 1. Draw private values for each agent
         for agent in agents:

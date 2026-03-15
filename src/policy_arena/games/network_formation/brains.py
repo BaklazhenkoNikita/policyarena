@@ -5,7 +5,10 @@ from __future__ import annotations
 import random
 
 from policy_arena.brains.base import Brain
-from policy_arena.games.network_formation.types import NetworkObservation, NetworkRoundResult
+from policy_arena.games.network_formation.types import (
+    NetworkObservation,
+    NetworkRoundResult,
+)
 
 
 class FullyConnected(Brain):
@@ -16,7 +19,9 @@ class FullyConnected(Brain):
         return "fully_connected"
 
     def decide(self, observation: NetworkObservation) -> list[int]:
-        return [i for i in range(observation.n_players) if i != observation.my_agent_index]
+        return [
+            i for i in range(observation.n_players) if i != observation.my_agent_index
+        ]
 
     def update(self, result: NetworkRoundResult) -> None:
         pass
@@ -54,7 +59,9 @@ class RandomLinker(Brain):
         return f"random_linker(k={self._k})"
 
     def decide(self, observation: NetworkObservation) -> list[int]:
-        others = [i for i in range(observation.n_players) if i != observation.my_agent_index]
+        others = [
+            i for i in range(observation.n_players) if i != observation.my_agent_index
+        ]
         k = min(self._k, len(others))
         return self._rng.sample(others, k)
 
@@ -79,7 +86,11 @@ class PopularityBased(Brain):
     def decide(self, observation: NetworkObservation) -> list[int]:
         if not observation.network_adjacency:
             # First round: pick first k others
-            others = [i for i in range(observation.n_players) if i != observation.my_agent_index]
+            others = [
+                i
+                for i in range(observation.n_players)
+                if i != observation.my_agent_index
+            ]
             return others[: self._k]
 
         # Sort others by degree (number of connections), descending
@@ -117,7 +128,11 @@ class BestResponseLinker(Brain):
     def decide(self, observation: NetworkObservation) -> list[int]:
         if observation.round_number == 0:
             # First round: connect to 2 random others
-            others = [i for i in range(observation.n_players) if i != observation.my_agent_index]
+            others = [
+                i
+                for i in range(observation.n_players)
+                if i != observation.my_agent_index
+            ]
             k = min(2, len(others))
             return self._rng.sample(others, k)
 
@@ -132,7 +147,8 @@ class BestResponseLinker(Brain):
 
         # Try one new random link
         others = [
-            i for i in range(observation.n_players)
+            i
+            for i in range(observation.n_players)
             if i != observation.my_agent_index and i not in profitable_links
         ]
         if others:

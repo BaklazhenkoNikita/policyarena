@@ -146,7 +146,6 @@ class CournotModel(mesa.Model):
 
     def step(self) -> None:
         agents = list(self.agents)
-        n = len(agents)
 
         from policy_arena.games.parallel import gather_decisions
 

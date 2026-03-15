@@ -122,8 +122,9 @@ results = pa.run(pa.get_scenario_path("pd_rl_vs_rulebased"), seed=123, rounds=50
 pa.list_games()
 # ['battle_of_sexes', 'chicken', 'commons', 'cournot', 'el_farol',
 #  'auction', 'hawk_dove', 'info_cascade', 'lobbying',
-#  'minority_game', 'prisoners_dilemma', 'public_goods', 'schelling',
-#  'sir', 'stag_hunt', 'trust_game', 'ultimatum', 'voting']
+#  'minority_game', 'network_formation', 'prisoners_dilemma',
+#  'public_goods', 'schelling', 'sir', 'stag_hunt', 'trust_game',
+#  'ultimatum', 'voting']
 
 # Inspect a game's available strategies
 registry = pa.get_registry()
@@ -282,6 +283,7 @@ See the [architecture docs](https://BaklazhenkoNikita.github.io/policyarena/arch
 |------|-------------|
 | **Schelling Segregation** | Agents on a grid relocate based on neighbor similarity |
 | **SIR Epidemic** | Disease spread on network with strategic isolation |
+| **Network Formation** | Agents form links; payoffs depend on network position and link costs |
 
 All pairwise and collective games support rule-based, RL, and LLM agents. Spatial/network games support rule-based and RL.
 

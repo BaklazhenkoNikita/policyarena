@@ -4,6 +4,11 @@ All notable changes to PolicyArena will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.4] - 2026-03-15
+
+### Added
+- Network Formation Game: agents form links with costs and distance-based benefits; 6 rule-based brains, RL and LLM support
+
 ## [0.1.3] - 2026-03-15
 
 ### Added

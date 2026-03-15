@@ -31,6 +31,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
   - LLM brain with full observation formatting and structured output
   - Built-in scenario: `lobbying_contest`
   - Metrics: total dissipation, avg spend, winner spend, rent dissipation rate, social welfare, strategy entropy
+- **Network Formation** game — agents form/drop links with costs and distance-decayed benefits
+  - Rule-based brains: Fully Connected, Isolationist, Random Linker, Popularity Based, Best Response Linker, Star Seeker
+  - RL brains: Q-learning, Bandit
+  - LLM brain with full observation formatting and structured output
+  - Built-in scenario: `network_formation_strategic`
+  - Metrics: network density, avg degree, clustering coefficient, avg payoff, num components, strategy entropy
 
 ## [0.1.4] - 2026-03-15
 

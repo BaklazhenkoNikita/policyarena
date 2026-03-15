@@ -42,6 +42,7 @@ Agents interact based on spatial proximity or network topology.
 |------|----|-------------|
 | **Schelling Segregation** | `schelling` | Agents on a grid relocate based on neighbor similarity |
 | **SIR Epidemic** | `sir` | Disease spread on network with strategic isolation |
+| **Network Formation** | `network_formation` | Agents form links; payoffs depend on network position and link costs |
 
 ## Agent Paradigm Support
 

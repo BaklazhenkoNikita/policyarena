@@ -1,0 +1,32 @@
+name: "Cournot Oligopoly — RL vs Rule-Based"
+description: "Q-learning agents discover optimal production quantities among rule-based strategies"
+game: cournot
+rounds: 150
+seed: 42
+
+game_params:
+  max_price: 100.0
+  marginal_cost: 10.0
+  max_quantity: 50.0
+
+agents:
+  - name: nash_player
+    strategy: nash_equilibrium
+
+  - name: monopolist
+    strategy: monopolist
+
+  - name: best_responder
+    strategy: best_response
+
+  - name: aggressive
+    strategy: aggressive
+
+  - name: q_learner
+    type: rl
+    strategy: q_learning
+    count: 2
+    parameters:
+      learning_rate: 0.1
+      epsilon: 0.3
+      epsilon_decay: 0.99

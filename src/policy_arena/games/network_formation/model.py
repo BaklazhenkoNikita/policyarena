@@ -62,7 +62,7 @@ class NetworkModel(mesa.Model):
         n_rounds: int = 100,
         link_cost: float = 5.0,
         direct_benefit: float = 10.0,
-        decay_factor: float = 0.5,
+        decay_factor: float = 0.3,
         max_links: int | None = None,
         labels: list[str] | None = None,
         **kwargs,
@@ -198,11 +198,13 @@ class NetworkModel(mesa.Model):
             dist2_neighbors = [n for n, d in distances.items() if d == 2]
 
             degree = len(direct_neighbors)
+            # Cost only for links this agent proposed (not links others formed to it)
+            n_proposed = len(proposals_by_index.get(idx, []))
             benefit = (
                 self.direct_benefit * len(direct_neighbors)
                 + self.direct_benefit * self.decay_factor * len(dist2_neighbors)
             )
-            cost = self.link_cost * degree
+            cost = self.link_cost * n_proposed
             payoff = benefit - cost
 
             my_links = tuple(sorted(direct_neighbors))

@@ -39,7 +39,7 @@ def main() -> None:
     n_rounds = 50
     link_cost = 5.0
     direct_benefit = 10.0
-    decay_factor = 0.5
+    decay_factor = 0.3
 
     scenario = Scenario(
         world_class=NetworkModel,

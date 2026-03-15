@@ -13,7 +13,7 @@ class NetworkObservation:
     n_players: int = 0
     link_cost: float = 5.0
     direct_benefit: float = 10.0
-    decay_factor: float = 0.5
+    decay_factor: float = 0.3
     max_links: int = 0
     my_agent_index: int = 0
     my_current_links: tuple[int, ...] = ()

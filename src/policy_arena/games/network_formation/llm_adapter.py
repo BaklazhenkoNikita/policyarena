@@ -125,7 +125,7 @@ def nf_llm(
     n_players: int = 6,
     link_cost: float = 5.0,
     direct_benefit: float = 10.0,
-    decay_factor: float = 0.5,
+    decay_factor: float = 0.3,
     max_links: int | None = None,
     my_index: int = 0,
     api_key: str | None = None,

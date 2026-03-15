@@ -121,8 +121,10 @@ results = pa.run(pa.get_scenario_path("pd_rl_vs_rulebased"), seed=123, rounds=50
 # List available games
 pa.list_games()
 # ['battle_of_sexes', 'chicken', 'commons', 'cournot', 'el_farol',
-#  'hawk_dove', 'minority_game', 'prisoners_dilemma', 'public_goods',
-#  'schelling', 'sir', 'stag_hunt', 'trust_game', 'ultimatum']
+#  'auction', 'hawk_dove', 'info_cascade', 'lobbying',
+#  'minority_game', 'network_formation', 'prisoners_dilemma',
+#  'public_goods', 'schelling', 'sir', 'stag_hunt', 'trust_game',
+#  'ultimatum', 'voting']
 
 # Inspect a game's available strategies
 registry = pa.get_registry()
@@ -270,6 +272,10 @@ See the [architecture docs](https://BaklazhenkoNikita.github.io/policyarena/arch
 | **El Farol Bar** | Attend only if crowd is below threshold |
 | **Tragedy of the Commons** | Extract from a shared renewable resource |
 | **Minority Game** | Choose between two options — minority wins |
+| **Voting & Election** | N voters elect candidates under plurality, approval, or Borda rules |
+| **Sealed-Bid Auction** | First-price or second-price (Vickrey) sealed-bid auction with private values |
+| **Information Cascade** | Sequential binary decisions with private signals — herding dynamics |
+| **Lobbying Contest** | Tullock rent-seeking contest — spend to win a prize, highest spender most likely wins |
 
 ### Spatial / Network
 
@@ -277,6 +283,7 @@ See the [architecture docs](https://BaklazhenkoNikita.github.io/policyarena/arch
 |------|-------------|
 | **Schelling Segregation** | Agents on a grid relocate based on neighbor similarity |
 | **SIR Epidemic** | Disease spread on network with strategic isolation |
+| **Network Formation** | Agents form links; payoffs depend on network position and link costs |
 
 All pairwise and collective games support rule-based, RL, and LLM agents. Spatial/network games support rule-based and RL.
 

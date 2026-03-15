@@ -1,0 +1,28 @@
+name: "Voting — Plurality with Mixed Strategies"
+description: "Sincere, strategic, and random voters compete under plurality voting with 4 candidates"
+game: voting
+rounds: 100
+seed: 42
+
+game_params:
+  n_candidates: 4
+  voting_rule: plurality
+
+agents:
+  - name: sincere_1
+    strategy: sincere_voter
+
+  - name: sincere_2
+    strategy: sincere_voter
+
+  - name: strategic_1
+    strategy: strategic_voter
+
+  - name: strategic_2
+    strategy: strategic_voter
+
+  - name: random
+    strategy: random_voter
+
+  - name: contrarian
+    strategy: contrarian_voter

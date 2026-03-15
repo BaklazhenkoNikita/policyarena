@@ -92,16 +92,10 @@ def main() -> None:
 
     print("\n--- Per-Agent Results ---")
     agents = list(model.agents)
-    print(
-        f"  {'Agent':<20} {'Brain':<25} {'Total Payoff':>13} {'Avg Bid':>10}"
-    )
+    print(f"  {'Agent':<20} {'Brain':<25} {'Total Payoff':>13} {'Avg Bid':>10}")
     print("  " + "-" * 72)
     for agent in sorted(agents, key=lambda a: a.cumulative_payoff, reverse=True):
-        avg_b = (
-            sum(agent._past_bids) / len(agent._past_bids)
-            if agent._past_bids
-            else 0
-        )
+        avg_b = sum(agent._past_bids) / len(agent._past_bids) if agent._past_bids else 0
         print(
             f"  {agent.label:<20} {agent.brain_name:<25} "
             f"{agent.cumulative_payoff:>13.1f} {avg_b:>10.2f}"

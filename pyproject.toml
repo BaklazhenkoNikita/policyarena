@@ -122,6 +122,23 @@ strict = false
 warn_unused_configs = true
 ignore_missing_imports = true
 
+[tool.coverage.run]
+source = ["policy_arena"]
+omit = [
+    "src/policy_arena/cli/*",
+    "src/policy_arena/games/*/__main__.py",
+    "src/policy_arena/games/*/llm_adapter.py",
+    "src/policy_arena/brains/llm/*",
+    "src/policy_arena/llm/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.",
+    "if TYPE_CHECKING:",
+]
+
 [[tool.mypy.overrides]]
 module = [
     "policy_arena.brains.llm.*",

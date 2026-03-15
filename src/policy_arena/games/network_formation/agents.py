@@ -5,7 +5,10 @@ from __future__ import annotations
 import mesa
 
 from policy_arena.brains.base import Brain
-from policy_arena.games.network_formation.types import NetworkObservation, NetworkRoundResult
+from policy_arena.games.network_formation.types import (
+    NetworkObservation,
+    NetworkRoundResult,
+)
 
 
 class NetworkAgent(mesa.Agent):
@@ -65,8 +68,11 @@ class NetworkAgent(mesa.Agent):
             raw = list(raw)
         # Remove self-links and invalid indices
         valid = [
-            idx for idx in raw
-            if isinstance(idx, int) and idx != self.agent_index and 0 <= idx < self.model.n_players
+            idx
+            for idx in raw
+            if isinstance(idx, int)
+            and idx != self.agent_index
+            and 0 <= idx < self.model.n_players
         ]
         # Remove duplicates preserving order
         seen: set[int] = set()

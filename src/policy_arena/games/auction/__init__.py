@@ -34,5 +34,7 @@ REGISTRATION = GameRegistration(
         "llm": _lazy_llm,
     },
     llm_factory=_lazy_llm,
-    llm_extra_kwargs=frozenset({"auction_type", "value_min", "value_max", "max_bid", "n_players"}),
+    llm_extra_kwargs=frozenset(
+        {"auction_type", "value_min", "value_max", "max_bid", "n_players"}
+    ),
 )

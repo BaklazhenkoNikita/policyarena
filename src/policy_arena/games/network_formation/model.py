@@ -200,10 +200,9 @@ class NetworkModel(mesa.Model):
             degree = len(direct_neighbors)
             # Cost only for links this agent proposed (not links others formed to it)
             n_proposed = len(proposals_by_index.get(idx, []))
-            benefit = (
-                self.direct_benefit * len(direct_neighbors)
-                + self.direct_benefit * self.decay_factor * len(dist2_neighbors)
-            )
+            benefit = self.direct_benefit * len(
+                direct_neighbors
+            ) + self.direct_benefit * self.decay_factor * len(dist2_neighbors)
             cost = self.link_cost * n_proposed
             payoff = benefit - cost
 

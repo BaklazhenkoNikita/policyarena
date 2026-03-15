@@ -102,7 +102,10 @@ class BestResponse(Brain):
         return (obs.max_price - obs.marginal_cost) / (obs.n_players + 1)
 
     def decide(self, observation: CournotObservation) -> float:
-        if not observation.market_past_total_quantities or not observation.my_past_quantities:
+        if (
+            not observation.market_past_total_quantities
+            or not observation.my_past_quantities
+        ):
             return self._ne_quantity(observation)
 
         rival_output = (

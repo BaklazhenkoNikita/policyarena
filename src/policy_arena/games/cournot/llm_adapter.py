@@ -82,7 +82,9 @@ def _cournot_observation_formatter(observations: list[Any]) -> str:
             total = sum(profit_recent)
             avg_profit = total / len(profit_recent)
             cumulative = sum(obs.my_past_profits)
-            parts.append(f"Your recent profits: total={total:.1f}, avg={avg_profit:.2f}")
+            parts.append(
+                f"Your recent profits: total={total:.1f}, avg={avg_profit:.2f}"
+            )
             parts.append(f"Your cumulative profit: {cumulative:.1f}")
 
             if obs.my_past_quantities:
@@ -112,7 +114,9 @@ def _cournot_observation_formatter(observations: list[Any]) -> str:
     else:
         parts.append("No history yet — first round.")
 
-    parts.append(f"\nChoose your production quantity (0 to {_fmt_num(obs.max_quantity)}).")
+    parts.append(
+        f"\nChoose your production quantity (0 to {_fmt_num(obs.max_quantity)})."
+    )
     return "\n\n".join(parts)
 
 

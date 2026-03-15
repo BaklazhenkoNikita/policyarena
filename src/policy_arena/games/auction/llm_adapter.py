@@ -43,12 +43,8 @@ def _auction_observation_formatter(observations: list[Any]) -> str:
     obs = observations[0]
     round_num = obs.round_number + 1
     parts = [f"=== Round {round_num} ===\n"]
-    parts.append(
-        f"Auction type: {obs.auction_type}, Players: {obs.n_players}"
-    )
-    parts.append(
-        f"Your private value this round: {_fmt_num(obs.my_value)}"
-    )
+    parts.append(f"Auction type: {obs.auction_type}, Players: {obs.n_players}")
+    parts.append(f"Your private value this round: {_fmt_num(obs.my_value)}")
     parts.append(
         f"Value range: [{_fmt_num(obs.value_min)}, {_fmt_num(obs.value_max)}], "
         f"Max bid: {_fmt_num(obs.max_bid)}"
@@ -151,9 +147,7 @@ def auction_llm(
             "second-highest bid, not their own bid."
         )
     else:
-        price_rule = (
-            "Payment rule: FIRST-PRICE. The winner pays their own bid."
-        )
+        price_rule = "Payment rule: FIRST-PRICE. The winner pays their own bid."
 
     bne_fraction = (n_players - 1) / n_players if n_players > 1 else 1.0
 

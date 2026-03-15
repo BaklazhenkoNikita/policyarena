@@ -36,5 +36,7 @@ REGISTRATION = GameRegistration(
         "llm": _lazy_llm,
     },
     llm_factory=_lazy_llm,
-    llm_extra_kwargs=frozenset({"prize_value", "budget", "contest_sensitivity", "n_players"}),
+    llm_extra_kwargs=frozenset(
+        {"prize_value", "budget", "contest_sensitivity", "n_players"}
+    ),
 )

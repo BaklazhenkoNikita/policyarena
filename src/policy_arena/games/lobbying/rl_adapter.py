@@ -13,7 +13,9 @@ def _lobbying_state_encoder(obs) -> str:
     """State = binned total dissipation rate from last round."""
     if not obs.past_total_spends:
         return "start"
-    dissipation = obs.past_total_spends[-1] / obs.prize_value if obs.prize_value > 0 else 0
+    dissipation = (
+        obs.past_total_spends[-1] / obs.prize_value if obs.prize_value > 0 else 0
+    )
     if dissipation < 0.2:
         return "low"
     elif dissipation < 0.4:

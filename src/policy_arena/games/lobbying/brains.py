@@ -110,7 +110,9 @@ class BestResponse(Brain):
             return min(ne_spend, observation.budget)
 
         # Others' total spend last round = total - my spend
-        others_total = observation.past_total_spends[-1] - observation.my_past_spends[-1]
+        others_total = (
+            observation.past_total_spends[-1] - observation.my_past_spends[-1]
+        )
         others_total = max(0.0, others_total)
 
         if others_total == 0:

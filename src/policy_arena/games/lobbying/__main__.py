@@ -106,9 +106,7 @@ def main() -> None:
             else 0
         )
         win_rate = (
-            sum(agent._past_wins) / len(agent._past_wins)
-            if agent._past_wins
-            else 0
+            sum(agent._past_wins) / len(agent._past_wins) if agent._past_wins else 0
         )
         print(
             f"  {agent.label:<20} {agent.brain_name:<25} "

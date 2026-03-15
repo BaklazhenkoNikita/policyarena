@@ -28,7 +28,8 @@ REGISTRATION = GameRegistration(
         "fully_connected": lambda **_: FullyConnected(),
         "isolationist": lambda **_: Isolationist(),
         "random_linker": lambda **kw: RandomLinker(
-            k=kw.get("k", 2), seed=kw.get("seed"),
+            k=kw.get("k", 2),
+            seed=kw.get("seed"),
         ),
         "popularity_based": lambda **kw: PopularityBased(k=kw.get("k", 2)),
         "best_response_linker": lambda **kw: BestResponseLinker(seed=kw.get("seed")),
@@ -38,5 +39,7 @@ REGISTRATION = GameRegistration(
         "llm": _lazy_llm,
     },
     llm_factory=_lazy_llm,
-    llm_extra_kwargs=frozenset({"n_players", "link_cost", "direct_benefit", "decay_factor", "max_links"}),
+    llm_extra_kwargs=frozenset(
+        {"n_players", "link_cost", "direct_benefit", "decay_factor", "max_links"}
+    ),
 )

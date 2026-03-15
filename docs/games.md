@@ -32,6 +32,7 @@ All agents participate simultaneously in each round.
 | **Voting & Election** | `voting` | N voters elect candidates under plurality, approval, or Borda rules |
 | **Sealed-Bid Auction** | `auction` | First-price or second-price (Vickrey) sealed-bid auction with private values |
 | **Information Cascade** | `info_cascade` | Sequential binary decisions with private signals — herding dynamics |
+| **Lobbying Contest** | `lobbying` | Tullock rent-seeking contest — spend to win a prize, highest spender most likely wins |
 
 ## Spatial / Network
 

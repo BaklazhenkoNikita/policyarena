@@ -25,6 +25,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
   - LLM brain with Bayesian reasoning guidance and structured output
   - Built-in scenario: `info_cascade_bayesian`
   - Metrics: accuracy, cascade_rate, cascade_length, herd_accuracy, strategy_entropy
+- **Lobbying / Rent-Seeking Contest** game (Tullock Contest) — N-player contest where agents spend resources to win a prize
+  - Rule-based brains: Nash Equilibrium, Big Spender, Conservative, Fixed Spend, Best Response, Abstainer
+  - RL brains: Q-learning, Bandit
+  - LLM brain with full observation formatting and structured output
+  - Built-in scenario: `lobbying_contest`
+  - Metrics: total dissipation, avg spend, winner spend, rent dissipation rate, social welfare, strategy entropy
 
 ## [0.1.4] - 2026-03-15
 

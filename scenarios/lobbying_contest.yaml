@@ -1,0 +1,32 @@
+name: "Lobbying Contest — RL vs Rule-Based"
+description: "Q-learning agent discovers optimal lobbying spend among rule-based strategies in a Tullock contest"
+game: lobbying
+rounds: 150
+seed: 42
+
+game_params:
+  prize_value: 100.0
+  budget: 50.0
+  contest_sensitivity: 1.0
+
+agents:
+  - name: nash_eq
+    strategy: nash_equilibrium
+
+  - name: big_spender
+    strategy: big_spender
+
+  - name: conservative
+    strategy: conservative
+
+  - name: best_resp
+    strategy: best_response
+
+  - name: q_learner
+    type: rl
+    strategy: q_learning
+    count: 2
+    parameters:
+      learning_rate: 0.1
+      epsilon: 0.3
+      epsilon_decay: 0.99

@@ -4,6 +4,16 @@ All notable changes to PolicyArena will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.5] - 2026-03-15
+
+### Added
+- **Voting & Election Game** -- N-player voting under plurality, approval, and Borda rules with 1D spatial candidates
+  - Rule-based brains: Sincere Voter, Strategic Voter, Random Voter, Contrarian Voter
+  - RL brains: Q-learning, Bandit
+  - LLM brain with full observation formatting and structured output
+  - Built-in scenario: `voting_plurality`
+  - Metrics: winner position, sincere voting rate, effective number of candidates, social welfare, strategy entropy
+
 ## [0.1.4] - 2026-03-15
 
 ### Added

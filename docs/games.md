@@ -29,6 +29,7 @@ All agents participate simultaneously in each round.
 | **El Farol Bar** | `el_farol` | Attend only if crowd is below threshold |
 | **Tragedy of the Commons** | `commons` | Extract from a shared renewable resource |
 | **Minority Game** | `minority_game` | Choose between two options — minority wins |
+| **Voting & Election** | `voting` | N voters elect candidates under plurality, approval, or Borda rules |
 
 ## Spatial / Network
 

@@ -122,7 +122,8 @@ results = pa.run(pa.get_scenario_path("pd_rl_vs_rulebased"), seed=123, rounds=50
 pa.list_games()
 # ['battle_of_sexes', 'chicken', 'commons', 'cournot', 'el_farol',
 #  'hawk_dove', 'minority_game', 'prisoners_dilemma', 'public_goods',
-#  'schelling', 'sir', 'stag_hunt', 'trust_game', 'ultimatum', 'voting']
+#  'auction', 'schelling', 'sir', 'stag_hunt', 'trust_game', 'ultimatum',
+#  'voting']
 
 # Inspect a game's available strategies
 registry = pa.get_registry()
@@ -271,6 +272,7 @@ See the [architecture docs](https://BaklazhenkoNikita.github.io/policyarena/arch
 | **Tragedy of the Commons** | Extract from a shared renewable resource |
 | **Minority Game** | Choose between two options — minority wins |
 | **Voting & Election** | N voters elect candidates under plurality, approval, or Borda rules |
+| **Sealed-Bid Auction** | First-price or second-price (Vickrey) sealed-bid auction with private values |
 
 ### Spatial / Network
 

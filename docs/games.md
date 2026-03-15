@@ -30,6 +30,7 @@ All agents participate simultaneously in each round.
 | **Tragedy of the Commons** | `commons` | Extract from a shared renewable resource |
 | **Minority Game** | `minority_game` | Choose between two options — minority wins |
 | **Voting & Election** | `voting` | N voters elect candidates under plurality, approval, or Borda rules |
+| **Sealed-Bid Auction** | `auction` | First-price or second-price (Vickrey) sealed-bid auction with private values |
 
 ## Spatial / Network
 

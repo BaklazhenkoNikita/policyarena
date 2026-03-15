@@ -121,9 +121,9 @@ results = pa.run(pa.get_scenario_path("pd_rl_vs_rulebased"), seed=123, rounds=50
 # List available games
 pa.list_games()
 # ['battle_of_sexes', 'chicken', 'commons', 'cournot', 'el_farol',
-#  'hawk_dove', 'minority_game', 'prisoners_dilemma', 'public_goods',
-#  'auction', 'schelling', 'sir', 'stag_hunt', 'trust_game', 'ultimatum',
-#  'voting']
+#  'auction', 'hawk_dove', 'info_cascade', 'minority_game',
+#  'prisoners_dilemma', 'public_goods', 'schelling', 'sir',
+#  'stag_hunt', 'trust_game', 'ultimatum', 'voting']
 
 # Inspect a game's available strategies
 registry = pa.get_registry()
@@ -273,6 +273,7 @@ See the [architecture docs](https://BaklazhenkoNikita.github.io/policyarena/arch
 | **Minority Game** | Choose between two options — minority wins |
 | **Voting & Election** | N voters elect candidates under plurality, approval, or Borda rules |
 | **Sealed-Bid Auction** | First-price or second-price (Vickrey) sealed-bid auction with private values |
+| **Information Cascade** | Sequential binary decisions with private signals — herding dynamics |
 
 ### Spatial / Network
 

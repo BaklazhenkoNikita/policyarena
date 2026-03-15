@@ -31,6 +31,7 @@ All agents participate simultaneously in each round.
 | **Minority Game** | `minority_game` | Choose between two options — minority wins |
 | **Voting & Election** | `voting` | N voters elect candidates under plurality, approval, or Borda rules |
 | **Sealed-Bid Auction** | `auction` | First-price or second-price (Vickrey) sealed-bid auction with private values |
+| **Information Cascade** | `info_cascade` | Sequential binary decisions with private signals — herding dynamics |
 
 ## Spatial / Network
 

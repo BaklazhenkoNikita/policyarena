@@ -19,6 +19,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
   - LLM brain with full observation formatting and structured output
   - Built-in scenario: `auction_first_price`
   - Metrics: avg bid, winner surplus, overbidding rate, revenue, efficiency, social welfare, strategy entropy
+- **Information Cascade** game — sequential binary decisions with private signals and herding dynamics
+  - Rule-based brains: Bayesian, Signal Follower, Herd Follower, Contrarian, Random
+  - RL brains: Q-learning, Bandit
+  - LLM brain with Bayesian reasoning guidance and structured output
+  - Built-in scenario: `info_cascade_bayesian`
+  - Metrics: accuracy, cascade_rate, cascade_length, herd_accuracy, strategy_entropy
 
 ## [0.1.4] - 2026-03-15
 

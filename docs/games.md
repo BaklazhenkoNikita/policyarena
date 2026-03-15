@@ -25,6 +25,7 @@ All agents participate simultaneously in each round.
 | Game | ID | Description |
 |------|----|-------------|
 | **Public Goods** | `public_goods` | Contribute to a shared pool, multiplied and split equally |
+| **Cournot Oligopoly** | `cournot` | Firms choose production quantities; market price falls with total output |
 | **El Farol Bar** | `el_farol` | Attend only if crowd is below threshold |
 | **Tragedy of the Commons** | `commons` | Extract from a shared renewable resource |
 | **Minority Game** | `minority_game` | Choose between two options — minority wins |

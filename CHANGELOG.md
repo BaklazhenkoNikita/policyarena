@@ -4,6 +4,16 @@ All notable changes to PolicyArena will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.4] - 2026-03-15
+
+### Added
+- **Cournot Oligopoly** game — N-firm quantity competition with market price clearing, Nash equilibrium, collusion dynamics
+  - Rule-based brains: Nash Equilibrium, Monopolist, Aggressive, Fixed Quantity, Best Response, Undercut
+  - RL brains: Q-learning, Bandit
+  - LLM brain with full observation formatting and structured output
+  - Built-in scenario: `cournot_competition`
+  - Metrics: market price, total quantity, avg profit, Nash distance, social welfare, strategy entropy, competition intensity
+
 ## [0.1.3] - 2026-03-15
 
 ### Added

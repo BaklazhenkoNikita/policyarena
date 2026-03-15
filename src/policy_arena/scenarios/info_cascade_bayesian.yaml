@@ -1,0 +1,28 @@
+name: "Info Cascade — Bayesian vs Heuristic"
+description: "Bayesian agents form information cascades among signal followers, herd followers, and contrarians"
+game: info_cascade
+rounds: 30
+seed: 42
+
+game_params:
+  signal_accuracy: 0.7
+  observation_window: 0
+
+agents:
+  - name: bayesian_1
+    strategy: bayesian
+
+  - name: bayesian_2
+    strategy: bayesian
+
+  - name: signal_follower
+    strategy: signal_follower
+
+  - name: herd_follower
+    strategy: herd_follower
+
+  - name: contrarian
+    strategy: contrarian
+
+  - name: random
+    strategy: random

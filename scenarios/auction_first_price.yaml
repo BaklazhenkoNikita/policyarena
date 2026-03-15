@@ -1,0 +1,35 @@
+name: "Sealed-Bid Auction — First Price"
+description: "First-price sealed-bid auction with diverse bidding strategies and RL learner"
+game: auction
+rounds: 100
+seed: 42
+
+game_params:
+  auction_type: first_price
+  value_min: 0.0
+  value_max: 100.0
+  max_bid: 150.0
+
+agents:
+  - name: truthful
+    strategy: truthful
+
+  - name: shaded_70
+    strategy: shaded
+    parameters:
+      shade_factor: 0.7
+
+  - name: aggressive
+    strategy: aggressive
+
+  - name: best_response
+    strategy: best_response
+
+  - name: q_learner
+    type: rl
+    strategy: q_learning
+    count: 2
+    parameters:
+      learning_rate: 0.1
+      epsilon: 0.3
+      epsilon_decay: 0.99

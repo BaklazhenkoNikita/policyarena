@@ -4,6 +4,16 @@ All notable changes to PolicyArena will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.5] - 2026-03-15
+
+### Added
+- **Sealed-Bid Auction** game — first-price and second-price (Vickrey) sealed-bid auctions with private values
+  - Rule-based brains: Truthful, Shaded, Aggressive, Random, Best Response (BNE-optimal)
+  - RL brains: Q-learning, Bandit
+  - LLM brain with full observation formatting and structured output
+  - Built-in scenario: `auction_first_price`
+  - Metrics: avg bid, winner surplus, overbidding rate, revenue, efficiency, social welfare, strategy entropy
+
 ## [0.1.4] - 2026-03-15
 
 ### Added

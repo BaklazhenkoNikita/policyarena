@@ -208,6 +208,10 @@ class NetworkModel(mesa.Model):
 
             my_links = tuple(sorted(direct_neighbors))
 
+            agent.links_proposed = n_proposed
+            agent.benefit_received = benefit
+            agent.cost_paid = cost
+
             result = NetworkRoundResult(
                 my_links=my_links,
                 my_degree=degree,

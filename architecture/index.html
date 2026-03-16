@@ -1,0 +1,2189 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Cross-paradigm simulation engine for game-theoretic agent research">
+      
+      
+      
+        <link rel="canonical" href="https://BaklazhenkoNikita.github.io/policyarena/architecture/">
+      
+      
+        <link rel="prev" href="../getting-started/">
+      
+      
+        <link rel="next" href="../configuration/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>Architecture - PolicyArena</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#policyarena-architecture" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="PolicyArena" class="md-header__button md-logo" aria-label="PolicyArena" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PolicyArena
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Architecture
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/BaklazhenkoNikita/policyarena" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    BaklazhenkoNikita/policyarena
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../getting-started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../configuration/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Configuration
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../games/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Built-in Games
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../reference/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../changelog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="PolicyArena" class="md-nav__button md-logo" aria-label="PolicyArena" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    PolicyArena
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/BaklazhenkoNikita/policyarena" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    BaklazhenkoNikita/policyarena
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-abstractions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Abstractions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Abstractions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#brain-brainsbasepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Brain (brains/base.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#three-brain-paradigms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Three Brain Paradigms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#world-mesamodel-subclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        World (mesa.Model subclass)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entity-mesaagent-subclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entity (mesa.Agent subclass)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-corescenariopy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario (core/scenario.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#engine-coreenginepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Engine (core/engine.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#types-coretypespy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types (core/types.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#game-registration-registrationpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Game Registration (registration.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Game Registration (registration.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gameregistration-dataclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GameRegistration dataclass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gameregistry-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GameRegistry class
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#game-package-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Game Package Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Game Package Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implemented-games" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implemented Games
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-io" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration (io/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metrics-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metrics (metrics/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-output-io" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Output (io/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#llm-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LLM Integration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling-errorspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling (errors.py)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependency-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extending-policyarena" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extending PolicyArena
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extending PolicyArena">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-game" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding a New Game
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#third-party-games" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Third-Party Games
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-brain-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding a New Brain Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design Decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../games/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Built-in Games
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/brains/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brains
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metrics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/io/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-abstractions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Abstractions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Abstractions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#brain-brainsbasepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Brain (brains/base.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#three-brain-paradigms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Three Brain Paradigms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#world-mesamodel-subclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        World (mesa.Model subclass)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entity-mesaagent-subclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entity (mesa.Agent subclass)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-corescenariopy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario (core/scenario.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#engine-coreenginepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Engine (core/engine.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#types-coretypespy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types (core/types.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#game-registration-registrationpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Game Registration (registration.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Game Registration (registration.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gameregistration-dataclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GameRegistration dataclass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gameregistry-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GameRegistry class
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#game-package-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Game Package Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Game Package Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implemented-games" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implemented Games
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-io" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration (io/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metrics-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metrics (metrics/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-output-io" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Output (io/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#llm-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LLM Integration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling-errorspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling (errors.py)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependency-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extending-policyarena" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extending PolicyArena
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extending PolicyArena">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-game" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding a New Game
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#third-party-games" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Third-Party Games
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-brain-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding a New Brain Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design Decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="policyarena-architecture">PolicyArena Architecture<a class="headerlink" href="#policyarena-architecture" title="Permanent link">&para;</a></h1>
+<p>Deep dive into the design, internals, and code structure of PolicyArena.</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#how-it-works">How It Works</a></li>
+<li><a href="#core-abstractions">Core Abstractions</a></li>
+<li><a href="#brain-brainsbasepy">Brain</a></li>
+<li><a href="#three-brain-paradigms">Three Brain Paradigms</a></li>
+<li><a href="#world-mesamodel-subclass">World (Mesa Model)</a></li>
+<li><a href="#entity-mesaagent-subclass">Entity (Mesa Agent)</a></li>
+<li><a href="#scenario-corescenariopy">Scenario</a></li>
+<li><a href="#engine-coreenginepy">Engine</a></li>
+<li><a href="#types-coretypespy">Types</a></li>
+<li><a href="#game-registration-registrationpy">Game Registration</a></li>
+<li><a href="#game-package-structure">Game Package Structure</a></li>
+<li><a href="#configuration-io">Configuration</a></li>
+<li><a href="#metrics-metrics">Metrics</a></li>
+<li><a href="#data-output-io">Data Output</a></li>
+<li><a href="#llm-integration">LLM Integration</a></li>
+<li><a href="#project-structure">Project Structure</a></li>
+<li><a href="#error-handling-errorspy">Error Handling</a></li>
+<li><a href="#dependency-architecture">Dependency Architecture</a></li>
+<li><a href="#extending-policyarena">Extending PolicyArena</a></li>
+<li><a href="#design-decisions">Design Decisions</a></li>
+</ul>
+<hr />
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>PolicyArena is a simulation engine for running game-theoretic experiments with agents controlled by different paradigms — rule-based strategies, reinforcement learning, and large language models — all within the same simulation.</p>
+<p>It builds on two foundations:
+- <a href="https://mesa.readthedocs.io/">Mesa 3</a> for agent-based modeling (scheduling, topologies, data collection)
+- <a href="https://python.langchain.com/">LangChain</a> for provider-agnostic LLM integration (Anthropic, OpenAI, Google, Ollama)</p>
+<h2 id="how-it-works">How It Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
+<p>A simulation flows through four stages:</p>
+<div class="highlight"><pre><span></span><code>YAML Config  →  Scenario  →  Mesa Model  →  RunResults
+(or Python)     (dataclass)   (step loop)    (DataFrames)
+</code></pre></div>
+<ol>
+<li>A YAML config (or <code>ScenarioConfig</code> object) specifies the game, agents, parameters, and seed</li>
+<li><code>config_loader.py</code> resolves brain factories from the registry and builds a <code>Scenario</code> dataclass</li>
+<li><code>Engine.run()</code> instantiates the Mesa model, calls <code>model.run_model()</code>, and collects DataFrames</li>
+<li>Results come back as <code>RunResults</code> with <code>model_metrics</code> and <code>agent_metrics</code></li>
+</ol>
+<h2 id="core-abstractions">Core Abstractions<a class="headerlink" href="#core-abstractions" title="Permanent link">&para;</a></h2>
+<h3 id="brain-brainsbasepy">Brain (<code>brains/base.py</code>)<a class="headerlink" href="#brain-brainsbasepy" title="Permanent link">&para;</a></h3>
+<p>The central abstraction. Every agent is controlled by a Brain — the engine is completely paradigm-agnostic.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># src/policy_arena/brains/base.py</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Brain</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Human-readable identifier for this brain/strategy.&quot;&quot;&quot;</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Choose an action given the current observation.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">decide_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observations</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decide for multiple opponents at once.</span>
+<span class="sd">        Default: calls decide() individually.</span>
+<span class="sd">        LLM brains override this to make a single LLM call.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">decide</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span> <span class="k">for</span> <span class="n">obs</span> <span class="ow">in</span> <span class="n">observations</span><span class="p">]</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Learn from the outcome of the last round.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_round_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">summary</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Receive a consolidated round summary.&quot;&quot;&quot;</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset internal state for a new game.&quot;&quot;&quot;</span>
+</code></pre></div>
+<p>The <code>decide</code>/<code>update</code> signatures use <code>Any</code> because observation and result types are game-specific — each game defines its own dataclasses in <code>types.py</code>.</p>
+<h3 id="three-brain-paradigms">Three Brain Paradigms<a class="headerlink" href="#three-brain-paradigms" title="Permanent link">&para;</a></h3>
+<p><strong>Rule-based</strong> (<code>brains/rule_based/</code>) — Deterministic strategies. Example: Tit-for-Tat is 7 lines of logic:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># src/policy_arena/brains/rule_based/tit_for_tat.py</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TitForTat</span><span class="p">(</span><span class="n">Brain</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation</span><span class="p">:</span> <span class="n">Observation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Action</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">observation</span><span class="o">.</span><span class="n">opponent_history</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Action</span><span class="o">.</span><span class="n">COOPERATE</span>
+        <span class="k">return</span> <span class="n">observation</span><span class="o">.</span><span class="n">opponent_history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">RoundResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span>  <span class="c1"># stateless</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span>
+</code></pre></div>
+<p>Available rule-based strategies: Tit-for-Tat, Always Cooperate, Always Defect, Pavlov, Random — plus game-specific heuristics defined in each game's <code>brains.py</code>.</p>
+<hr />
+<p><strong>RL</strong> (<code>brains/rl/</code>) — Tabular Q-learning with epsilon-greedy exploration, best response, and multi-armed bandit. The Q-learning brain is game-agnostic through pluggable <code>state_encoder</code> and <code>reward_extractor</code> functions:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># src/policy_arena/brains/rl/q_learning.py</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">QLearningBrain</span><span class="p">(</span><span class="n">Brain</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">action_space</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+        <span class="n">state_encoder</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">Hashable</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">reward_extractor</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">learning_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">discount</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.95</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">epsilon_decay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">epsilon_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
+        <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span> <span class="o">...</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">decide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_encoder</span><span class="p">(</span><span class="n">observation</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_action_space</span><span class="p">)</span>  <span class="c1"># explore</span>
+        <span class="c1"># exploit: pick action with highest Q-value</span>
+        <span class="n">q_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_q</span><span class="p">[</span><span class="n">state</span><span class="p">]</span>
+        <span class="n">max_q</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">q_values</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">best</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">q_values</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">q</span> <span class="o">==</span> <span class="n">max_q</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">best</span><span class="p">)</span>
+</code></pre></div>
+<p>Each game provides adapter functions (<code>rl_adapter.py</code>) that configure the state/action space for Q-learning, bandit, and best response brains.</p>
+<hr />
+<p><strong>LLM</strong> (<code>brains/llm/</code>) — Language model agents via LangChain's <code>BaseChatModel</code>. Key features:
+- <strong>Structured output</strong> — Pydantic schemas via <code>with_structured_output()</code> for reliable action parsing
+- <strong>Batch decisions</strong> — <code>decide_batch()</code> makes a single LLM call for all opponents in a round
+- <strong>Conversation history</strong> — configurable sliding window of past messages
+- <strong>Personas</strong> — system prompts that shape agent behavior (greedy, cooperative, etc.)
+- <strong>Fallback actions</strong> — graceful handling when LLM fails or returns invalid output
+- <strong>Provider retry interception</strong> — captures and surfaces LangChain's internal retry errors
+- <strong>Dual-role brains</strong> — <code>DualRoleBrain</code> handles games where an agent plays two roles (e.g., proposer/responder in Ultimatum)</p>
+<p>Each game provides an <code>llm_adapter.py</code> with observation formatters, action schemas, and factory functions.</p>
+<h3 id="world-mesamodel-subclass">World (<code>mesa.Model</code> subclass)<a class="headerlink" href="#world-mesamodel-subclass" title="Permanent link">&para;</a></h3>
+<p>Each game defines a model that owns the simulation state. Here's the Prisoner's Dilemma as a concrete example:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># src/policy_arena/games/prisoners_dilemma/model.py</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PrisonersDilemmaModel</span><span class="p">(</span><span class="n">mesa</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">brains</span><span class="p">,</span> <span class="n">n_rounds</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">payoff_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_rounds</span> <span class="o">=</span> <span class="n">n_rounds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">payoff_matrix</span> <span class="o">=</span> <span class="n">payoff_matrix</span> <span class="ow">or</span> <span class="n">DEFAULT_PAYOFF_MATRIX</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">brain</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">brains</span><span class="p">):</span>
+            <span class="n">PDAgent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">brain</span><span class="o">=</span><span class="n">brain</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">labels</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">datacollector</span> <span class="o">=</span> <span class="n">mesa</span><span class="o">.</span><span class="n">DataCollector</span><span class="p">(</span>
+            <span class="n">model_reporters</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;cooperation_rate&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">compute_cooperation_rate</span><span class="p">(</span><span class="n">m</span><span class="p">),</span>
+                <span class="s2">&quot;nash_eq_distance&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">compute_nash_distance</span><span class="p">(</span><span class="n">m</span><span class="p">),</span>
+                <span class="s2">&quot;social_welfare&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">compute_social_welfare</span><span class="p">(</span><span class="n">m</span><span class="p">),</span>
+                <span class="s2">&quot;strategy_entropy&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">compute_strategy_entropy</span><span class="p">(</span><span class="n">m</span><span class="p">),</span>
+            <span class="p">},</span>
+            <span class="n">agent_reporters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;cumulative_payoff&quot;</span><span class="p">:</span> <span class="s2">&quot;cumulative_payoff&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">},</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Phase 1: Collect observations for all matchups (round-robin)</span>
+        <span class="c1"># Phase 2: Batch decide — agents choose actions simultaneously</span>
+        <span class="c1"># Phase 3: Resolve payoffs centrally</span>
+        <span class="c1"># Phase 4: Brains learn from results</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datacollector</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Topologies vary by game:</strong>
+- <strong>No space</strong> — abstract games (PD, Public Goods, Ultimatum, El Farol, Commons, Minority Game)
+- <strong>Grid</strong> — <code>OrthogonalMooreGrid</code> for Schelling segregation
+- <strong>Network</strong> — small-world, scale-free, complete graphs for SIR epidemic</p>
+<h3 id="entity-mesaagent-subclass">Entity (<code>mesa.Agent</code> subclass)<a class="headerlink" href="#entity-mesaagent-subclass" title="Permanent link">&para;</a></h3>
+<p>Each agent holds a Brain and game-specific state. The agent delegates decisions to its brain and records results:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># src/policy_arena/games/prisoners_dilemma/agents.py</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PDAgent</span><span class="p">(</span><span class="n">mesa</span><span class="o">.</span><span class="n">Agent</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">brain</span><span class="p">:</span> <span class="n">Brain</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brain</span> <span class="o">=</span> <span class="n">brain</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cumulative_payoff</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_my_history</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Action</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>       <span class="c1"># per-opponent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_opponent_history</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Action</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># per-opponent</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_observation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">opponent_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Observation</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Observation</span><span class="p">(</span>
+            <span class="n">my_history</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_my_history</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">opponent_id</span><span class="p">,</span> <span class="p">[]),</span>
+            <span class="n">opponent_history</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_opponent_history</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">opponent_id</span><span class="p">,</span> <span class="p">[]),</span>
+            <span class="n">round_number</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">steps</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">record_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">RoundResult</span><span class="p">,</span> <span class="n">opponent_id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_my_history</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">opponent_id</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">action</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cumulative_payoff</span> <span class="o">+=</span> <span class="n">result</span><span class="o">.</span><span class="n">payoff</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brain</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># brain learns</span>
+</code></pre></div>
+<h3 id="scenario-corescenariopy">Scenario (<code>core/scenario.py</code>)<a class="headerlink" href="#scenario-corescenariopy" title="Permanent link">&para;</a></h3>
+<p>A plain dataclass — the fully resolved specification for a run:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Scenario</span><span class="p">:</span>
+    <span class="n">world_class</span><span class="p">:</span> <span class="nb">type</span>             <span class="c1"># e.g. PrisonersDilemmaModel</span>
+    <span class="n">world_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>  <span class="c1"># brains, n_rounds, payoff_matrix, labels, ...</span>
+    <span class="n">steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</code></pre></div>
+<h3 id="engine-coreenginepy">Engine (<code>core/engine.py</code>)<a class="headerlink" href="#engine-coreenginepy" title="Permanent link">&para;</a></h3>
+<p>Thin orchestration — 18 lines of actual logic:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RunResults</span><span class="p">:</span>
+    <span class="n">model_metrics</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
+    <span class="n">agent_metrics</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
+    <span class="n">extra</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Engine</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">:</span> <span class="n">Scenario</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RunResults</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">world_class</span><span class="p">(</span><span class="o">**</span><span class="n">scenario</span><span class="o">.</span><span class="n">world_params</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">scenario</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">run_model</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">RunResults</span><span class="p">(</span>
+            <span class="n">model_metrics</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">datacollector</span><span class="o">.</span><span class="n">get_model_vars_dataframe</span><span class="p">(),</span>
+            <span class="n">agent_metrics</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">datacollector</span><span class="o">.</span><span class="n">get_agent_vars_dataframe</span><span class="p">(),</span>
+            <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">},</span>
+        <span class="p">)</span>
+</code></pre></div>
+<h3 id="types-coretypespy">Types (<code>core/types.py</code>)<a class="headerlink" href="#types-coretypespy" title="Permanent link">&para;</a></h3>
+<p>Shared types used across games. Plain dataclasses — no Pydantic overhead in the hot path:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Action</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">COOPERATE</span> <span class="o">=</span> <span class="s2">&quot;cooperate&quot;</span>
+    <span class="n">DEFECT</span> <span class="o">=</span> <span class="s2">&quot;defect&quot;</span>
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Observation</span><span class="p">:</span>
+    <span class="n">my_history</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Action</span><span class="p">]</span>
+    <span class="n">opponent_history</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Action</span><span class="p">]</span>
+    <span class="n">round_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">extra</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RoundResult</span><span class="p">:</span>
+    <span class="n">action</span><span class="p">:</span> <span class="n">Action</span>
+    <span class="n">opponent_action</span><span class="p">:</span> <span class="n">Action</span>
+    <span class="n">payoff</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">round_number</span><span class="p">:</span> <span class="nb">int</span>
+</code></pre></div>
+<p>Note: these are the base types for pairwise matrix games. Games with different interaction structures (Public Goods, Schelling, SIR) define their own observation/result types in their <code>types.py</code>.</p>
+<h2 id="game-registration-registrationpy">Game Registration (<code>registration.py</code>)<a class="headerlink" href="#game-registration-registrationpy" title="Permanent link">&para;</a></h2>
+<p>Games self-register. Each game package defines a <code>REGISTRATION</code> in its <code>__init__.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># src/policy_arena/games/prisoners_dilemma/__init__.py</span>
+
+<span class="n">REGISTRATION</span> <span class="o">=</span> <span class="n">GameRegistration</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;prisoners_dilemma&quot;</span><span class="p">,</span>
+    <span class="n">model_class</span><span class="o">=</span><span class="n">PrisonersDilemmaModel</span><span class="p">,</span>
+    <span class="n">brain_factories</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;tit_for_tat&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="o">**</span><span class="n">_</span><span class="p">:</span> <span class="n">TitForTat</span><span class="p">(),</span>
+        <span class="s2">&quot;always_defect&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="o">**</span><span class="n">_</span><span class="p">:</span> <span class="n">AlwaysDefect</span><span class="p">(),</span>
+        <span class="s2">&quot;q_learning&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">pd_q_learning</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">),</span>
+        <span class="s2">&quot;llm&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">pd_llm</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">),</span>
+        <span class="c1"># ...</span>
+    <span class="p">},</span>
+    <span class="n">llm_factory</span><span class="o">=</span><span class="n">pd_llm</span><span class="p">,</span>
+    <span class="n">llm_extra_kwargs</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">({</span><span class="s2">&quot;payoff_matrix&quot;</span><span class="p">}),</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Discovery happens automatically</strong> on first access to <code>get_registry()</code>:</p>
+<ol>
+<li><strong>Built-in discovery</strong> — <code>pkgutil.iter_modules</code> scans all subpackages of <code>policy_arena.games</code>, imports each, and collects any <code>REGISTRATION</code> attribute</li>
+<li><strong>Entry point discovery</strong> — <code>importlib.metadata.entry_points(group="policy_arena.games")</code> finds third-party games</li>
+</ol>
+<p>The registry is a singleton — discovery runs once, on first call to <code>get_registry()</code>.</p>
+<h3 id="gameregistration-dataclass"><code>GameRegistration</code> dataclass<a class="headerlink" href="#gameregistration-dataclass" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GameRegistration</span><span class="p">:</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>                                          <span class="c1"># e.g. &quot;prisoners_dilemma&quot;</span>
+    <span class="n">model_class</span><span class="p">:</span> <span class="nb">type</span>                                <span class="c1"># Mesa model class</span>
+    <span class="n">brain_factories</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span>   <span class="c1"># strategy name → brain factory</span>
+    <span class="n">llm_factory</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1"># optional LLM brain factory</span>
+    <span class="n">llm_extra_kwargs</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">()</span>   <span class="c1"># extra kwargs passed to LLM factory</span>
+</code></pre></div>
+<h3 id="gameregistry-class"><code>GameRegistry</code> class<a class="headerlink" href="#gameregistry-class" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">GameRegistry</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reg</span><span class="p">:</span> <span class="n">GameRegistration</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GameRegistration</span><span class="p">:</span> <span class="o">...</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">/</span> <span class="n">keys</span><span class="p">()</span> <span class="o">/</span> <span class="n">values</span><span class="p">():</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="game-package-structure">Game Package Structure<a class="headerlink" href="#game-package-structure" title="Permanent link">&para;</a></h2>
+<p>Every game follows the same layout:</p>
+<div class="highlight"><pre><span></span><code>games/my_game/
+    __init__.py       # REGISTRATION — ties everything together
+    model.py          # mesa.Model subclass — game rules, step logic
+    agents.py         # mesa.Agent subclass — holds brain, tracks state
+    brains.py         # Game-specific rule-based strategies
+    types.py          # Observation, RoundResult dataclasses
+    llm_adapter.py    # LLM brain factory, observation formatters, action schemas
+    rl_adapter.py     # RL brain factories (Q-learning, bandit, best response)
+</code></pre></div>
+<h3 id="implemented-games">Implemented Games<a class="headerlink" href="#implemented-games" title="Permanent link">&para;</a></h3>
+<p><strong>Pairwise (round-robin tournaments):</strong>
+Prisoner's Dilemma, Stag Hunt, Hawk-Dove, Chicken, Battle of the Sexes, Trust Game, Ultimatum</p>
+<p><strong>N-player (collective action):</strong>
+Public Goods, El Farol Bar, Tragedy of the Commons, Minority Game</p>
+<p><strong>Spatial/Network:</strong>
+Schelling Segregation (grid), SIR Epidemic (network graph)</p>
+<h2 id="configuration-io">Configuration (<code>io/</code>)<a class="headerlink" href="#configuration-io" title="Permanent link">&para;</a></h2>
+<p>YAML configs are validated with Pydantic (<code>io/schemas.py</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ScenarioConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Unnamed Scenario&quot;</span>
+    <span class="n">game</span><span class="p">:</span> <span class="nb">str</span>                          <span class="c1"># e.g. &quot;prisoners_dilemma&quot;</span>
+    <span class="n">agents</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">AgentConfig</span><span class="p">]</span>          <span class="c1"># brain type + params + count</span>
+    <span class="n">rounds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">game_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>   <span class="c1"># passed to Mesa model constructor</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">AgentConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>                          <span class="c1"># label prefix</span>
+    <span class="n">strategy</span><span class="p">:</span> <span class="nb">str</span>                      <span class="c1"># brain factory key</span>
+    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>    <span class="c1"># brain-specific params</span>
+</code></pre></div>
+<p>The <code>config_loader.py</code> resolves brain factories from the registry, instantiates brains, and builds a <code>Scenario</code> dataclass.</p>
+<h2 id="metrics-metrics">Metrics (<code>metrics/</code>)<a class="headerlink" href="#metrics-metrics" title="Permanent link">&para;</a></h2>
+<p>Mesa's <code>DataCollector</code> records metrics each step. Core metrics are implemented as standalone functions:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Module</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cooperation Rate</td>
+<td><code>cooperation.py</code></td>
+<td>% cooperative actions per round</td>
+</tr>
+<tr>
+<td>Nash Equilibrium Distance</td>
+<td><code>nash_distance.py</code></td>
+<td>Deviation from stage-game NE</td>
+</tr>
+<tr>
+<td>Social Welfare</td>
+<td><code>social_welfare.py</code></td>
+<td>Total payoffs as % of theoretical max</td>
+</tr>
+<tr>
+<td>Strategy Entropy</td>
+<td><code>entropy.py</code></td>
+<td>Shannon entropy over action distribution</td>
+</tr>
+<tr>
+<td>Gini Coefficient</td>
+<td><code>gini.py</code></td>
+<td>Payoff inequality across agents</td>
+</tr>
+<tr>
+<td>Individual Regret</td>
+<td><code>regret.py</code></td>
+<td>Best fixed action in hindsight minus actual payoff</td>
+</tr>
+<tr>
+<td>Reciprocity</td>
+<td><code>reciprocity.py</code></td>
+<td>Degree of reciprocal cooperation patterns</td>
+</tr>
+<tr>
+<td>Adaptation Speed</td>
+<td><code>adaptation_speed.py</code></td>
+<td>Rounds until strategy stabilizes</td>
+</tr>
+</tbody>
+</table>
+<p>Games define additional metrics in their model's <code>DataCollector</code> setup (e.g., <code>segregation_index</code> for Schelling, <code>infected_pct</code> for SIR, <code>avg_contribution</code> for Public Goods).</p>
+<h2 id="data-output-io">Data Output (<code>io/</code>)<a class="headerlink" href="#data-output-io" title="Permanent link">&para;</a></h2>
+<p>Results are saved as Parquet files via Polars:</p>
+<ul>
+<li><strong><code>rounds.parquet</code></strong> — one row per agent per round (agent name, brain type, action, payoff, cumulative payoff)</li>
+<li><strong><code>metrics.parquet</code></strong> — one row per metric per round</li>
+</ul>
+<p>The <code>RunResults</code> object exposes these as pandas DataFrames for in-memory analysis.</p>
+<h2 id="llm-integration">LLM Integration<a class="headerlink" href="#llm-integration" title="Permanent link">&para;</a></h2>
+<p>LLM brains use LangChain's <code>BaseChatModel</code> abstraction (<code>brains/llm/llm_brain.py</code>). The <code>LLMBrain</code> class handles:</p>
+<ul>
+<li>Message construction (system prompt + conversation history + current observation)</li>
+<li>Structured output parsing via Pydantic schemas</li>
+<li>Rate limiting with configurable semaphore</li>
+<li>Error recovery with fallback actions</li>
+<li>Tracing via optional Langfuse integration</li>
+</ul>
+<p>Supported providers (configured in <code>llm/provider.py</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Package</th>
+<th>Example Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Anthropic</td>
+<td><code>langchain-anthropic</code></td>
+<td><code>claude-sonnet-4-6</code></td>
+</tr>
+<tr>
+<td>OpenAI</td>
+<td><code>langchain-openai</code></td>
+<td><code>gpt-5.4</code></td>
+</tr>
+<tr>
+<td>Google</td>
+<td><code>langchain-google-genai</code></td>
+<td><code>gemini-3.1-flash</code></td>
+</tr>
+<tr>
+<td>Ollama (local)</td>
+<td><code>langchain-ollama</code></td>
+<td><code>llama4</code></td>
+</tr>
+</tbody>
+</table>
+<p>API keys are read from environment variables (<code>ANTHROPIC_API_KEY</code>, <code>OPENAI_API_KEY</code>, <code>GOOGLE_API_KEY</code>).</p>
+<h2 id="project-structure">Project Structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>src/policy_arena/
+    __init__.py              # Public API: run(), list_games(), get_registry(), ...
+    _logging.py              # Logging configuration
+    errors.py                # Structured error hierarchy (GameNotFoundError, etc.)
+    registration.py          # GameRegistration, GameRegistry, auto-discovery
+    registry.py              # Backward-compat MODEL_CLASSES / BRAIN_FACTORIES dicts
+    tracing.py               # Optional Langfuse integration
+    core/
+        engine.py            # Engine.run() — thin orchestration
+        scenario.py          # Scenario dataclass
+        types.py             # Action, Observation, RoundResult
+        extractors.py        # Extract agent/model state as plain dicts
+    brains/
+        base.py              # Brain ABC
+        rule_based/          # TitForTat, AlwaysCooperate, AlwaysDefect, Pavlov, Random
+        rl/                  # QLearningBrain, BestResponseBrain, BanditBrain
+        llm/                 # LLMBrain, DualRoleBrain + shared utilities (lazy-loaded)
+    games/
+        parallel.py          # gather_decisions utility for parallel LLM calls
+        prisoners_dilemma/   # game packages, each with:
+        stag_hunt/           #   model.py, agents.py, brains.py, types.py,
+        hawk_dove/           #   llm_adapter.py, rl_adapter.py, __init__.py
+        chicken/
+        battle_of_sexes/
+        trust_game/
+        ultimatum/
+        public_goods/
+        el_farol/
+        commons/
+        minority_game/
+        schelling/
+        sir/
+    metrics/                 # cooperation, nash_distance, social_welfare, entropy,
+                             # gini, regret, reciprocity, adaptation_speed
+    io/
+        config_loader.py     # Load YAML → ScenarioConfig → Scenario
+        schemas.py           # Pydantic schemas (ScenarioConfig, AgentConfig)
+        results_writer.py    # Write results to Parquet via Polars
+        results_reader.py    # Read results from Parquet
+    llm/
+        provider.py          # LLM provider factory (lazy-loaded, requires [llm] extra)
+    cli/
+        main.py              # Typer CLI (run, games, info, validate, examples, version)
+    scenarios/               # built-in YAML scenario configs (one per game)
+</code></pre></div>
+<h2 id="error-handling-errorspy">Error Handling (<code>errors.py</code>)<a class="headerlink" href="#error-handling-errorspy" title="Permanent link">&para;</a></h2>
+<p>All domain errors inherit from <code>PolicyArenaError</code> and carry structured metadata:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PolicyArenaError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="n">code</span><span class="p">:</span> <span class="nb">str</span>                    <span class="c1"># Machine-readable: &quot;GAME_NOT_FOUND&quot;, &quot;STRATEGY_NOT_FOUND&quot;, etc.</span>
+    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span>                 <span class="c1"># Human-readable description</span>
+    <span class="n">details</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>      <span class="c1"># Structured context (game_id, available strategies, etc.)</span>
+</code></pre></div>
+<p>Error hierarchy:</p>
+<table>
+<thead>
+<tr>
+<th>Error</th>
+<th>Code</th>
+<th>Raised When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GameNotFoundError</code></td>
+<td><code>GAME_NOT_FOUND</code></td>
+<td>Game ID not in registry</td>
+</tr>
+<tr>
+<td><code>StrategyNotFoundError</code></td>
+<td><code>STRATEGY_NOT_FOUND</code></td>
+<td>Strategy not registered for a game</td>
+</tr>
+<tr>
+<td><code>ConfigValidationError</code></td>
+<td><code>CONFIG_VALIDATION_ERROR</code></td>
+<td>Scenario config fails validation</td>
+</tr>
+<tr>
+<td><code>SimulationError</code></td>
+<td><code>SIMULATION_ERROR</code></td>
+<td>Simulation fails during execution</td>
+</tr>
+<tr>
+<td><code>LLMProviderError</code></td>
+<td><code>LLM_PROVIDER_ERROR</code></td>
+<td>LLM provider call fails irrecoverably</td>
+</tr>
+<tr>
+<td><code>LLMNotInstalledError</code></td>
+<td><code>LLM_NOT_INSTALLED</code></td>
+<td>LLM deps missing (<code>pip install policy-arena[llm]</code>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dependency-architecture">Dependency Architecture<a class="headerlink" href="#dependency-architecture" title="Permanent link">&para;</a></h2>
+<p>The package uses optional dependency groups to keep the core lightweight:</p>
+<div class="highlight"><pre><span></span><code>policy-arena           → mesa, numpy, networkx, polars, pydantic, pyyaml, typer
+policy-arena[llm]      → + langchain-*, langfuse, python-dotenv
+policy-arena[api]      → + fastapi, uvicorn, sse-starlette (planned)
+policy-arena[all]      → everything
+</code></pre></div>
+<p>LLM modules are lazy-loaded via <code>__getattr__</code> in <code>brains/llm/__init__.py</code>, <code>brains/__init__.py</code>, and <code>llm/__init__.py</code>. Game packages use <code>_lazy_llm()</code> wrapper functions to defer LLM adapter imports. This means <code>import policy_arena</code> works without LangChain installed — the error only surfaces when you actually try to use an LLM brain.</p>
+<h2 id="extending-policyarena">Extending PolicyArena<a class="headerlink" href="#extending-policyarena" title="Permanent link">&para;</a></h2>
+<h3 id="adding-a-new-game">Adding a New Game<a class="headerlink" href="#adding-a-new-game" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Create <code>src/policy_arena/games/your_game/</code> with the standard file layout:</li>
+<li><code>__init__.py</code> — <code>REGISTRATION</code> with model class and brain factories</li>
+<li><code>model.py</code> — Mesa model subclass with game rules and step logic</li>
+<li><code>agents.py</code> — Mesa agent subclass with brain delegation</li>
+<li><code>brains.py</code> — Game-specific rule-based strategies</li>
+<li><code>types.py</code> — Observation and RoundResult dataclasses</li>
+<li><code>rl_adapter.py</code> — RL brain factories with state/action space adapters</li>
+<li><code>llm_adapter.py</code> — LLM brain factory with observation formatters and action schemas</li>
+<li>Define <code>REGISTRATION</code> in <code>__init__.py</code> with model class and brain factories</li>
+<li>The game is automatically discovered — no need to edit any central file</li>
+</ol>
+<h3 id="third-party-games">Third-Party Games<a class="headerlink" href="#third-party-games" title="Permanent link">&para;</a></h3>
+<p>External packages register via entry points in <code>pyproject.toml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[project.entry-points.</span><span class="s2">&quot;policy_arena.games&quot;</span><span class="k">]</span>
+<span class="n">my_game</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my_package.games.my_game&quot;</span>
+</code></pre></div>
+<p>The target module must export a <code>REGISTRATION</code> of type <code>GameRegistration</code>.</p>
+<h3 id="adding-a-new-brain-type">Adding a New Brain Type<a class="headerlink" href="#adding-a-new-brain-type" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Subclass <code>Brain</code> from <code>policy_arena.brains.base</code></li>
+<li>Implement <code>name</code>, <code>decide</code>, <code>update</code>, <code>reset</code></li>
+<li>Add a factory function to the relevant game's <code>brain_factories</code> dict</li>
+</ol>
+<h2 id="design-decisions">Design Decisions<a class="headerlink" href="#design-decisions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Build on Mesa 3</td>
+<td>Solves scheduling, topologies, data collection — don't reinvent solved problems</td>
+</tr>
+<tr>
+<td>LangChain for LLM brains</td>
+<td>Provider-agnostic <code>BaseChatModel</code>; swap providers with one config change</td>
+</tr>
+<tr>
+<td>Brain ABC with <code>decide</code>/<code>update</code>/<code>reset</code></td>
+<td>Engine stays paradigm-agnostic; all three brain types compose into the same run loop</td>
+</tr>
+<tr>
+<td>Game self-registration via <code>REGISTRATION</code></td>
+<td>Games are self-contained packages; no central registry file to maintain</td>
+</tr>
+<tr>
+<td>Entry points for third-party games</td>
+<td>Standard Python packaging mechanism; no framework-specific plugin system</td>
+</tr>
+<tr>
+<td><code>decide_batch()</code> on Brain</td>
+<td>Enables single LLM call per round (cost optimization) while rule-based/RL brains just loop</td>
+</tr>
+<tr>
+<td>Parquet via Polars</td>
+<td>Columnar, typed, fast analytical queries out of the box</td>
+</tr>
+<tr>
+<td>Plain dataclasses for types, Pydantic for config</td>
+<td>Lightweight core; strict validation only at I/O boundaries</td>
+</tr>
+<tr>
+<td>Reproducibility by default</td>
+<td>Everything is seeded via Mesa's built-in RNG; configs are snapshot-able</td>
+</tr>
+<tr>
+<td>Game adapters for RL and LLM</td>
+<td>Same <code>QLearningBrain</code> / <code>LLMBrain</code> class reused across all games; adapters map state/action spaces</td>
+</tr>
+<tr>
+<td>Optional LLM dependencies</td>
+<td>Core installs without LangChain; <code>[llm]</code> extra adds provider SDKs — keeps installs fast for non-LLM use cases</td>
+</tr>
+<tr>
+<td>Structured error hierarchy</td>
+<td>All domain errors carry <code>code</code> + <code>details</code> dict; frontends and API layers can handle errors programmatically</td>
+</tr>
+<tr>
+<td>Lazy LLM imports</td>
+<td>LLM modules use <code>__getattr__</code> and deferred imports so the package loads without LLM deps installed</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "content.code.copy", "search.suggest"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

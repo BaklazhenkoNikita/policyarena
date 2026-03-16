@@ -31,6 +31,9 @@ class NetworkAgent(mesa.Agent):
         self.cumulative_payoff: float = 0.0
         self.round_payoff: float = 0.0
         self.current_degree: int = 0
+        self.links_proposed: int = 0
+        self.benefit_received: float = 0.0
+        self.cost_paid: float = 0.0
 
         self._past_payoffs: list[float] = []
         self._past_links: list[tuple[int, ...]] = []
